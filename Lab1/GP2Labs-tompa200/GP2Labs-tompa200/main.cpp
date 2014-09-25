@@ -6,6 +6,7 @@
 SDL_Window * window;
 const int Window_Width = 640; //constant to control window creation
 const int Window_Height = 480;
+bool running = true;
 
 
 
@@ -26,6 +27,8 @@ void InitWindow(int width, int height, bool fullscreen)
 
 }
 
+
+
 void CleanUp()
 {
 	SDL_DestroyWindow(window);
@@ -44,6 +47,30 @@ int main(int argc, char * arg[]){
 	}
 
 	InitWindow(Window_Width, Window_Height, false);
+
+
+	SDL_Event event;
+
+	while (running)
+	{
+		while (SDL_PollEvent(&event))
+		{
+			//get event type
+			if (event.type == SDL_QUIT || event.type == SDL_WINDOWEVENT_CLOSE)
+			{
+				//set the running controller boolean to false
+				running = false;
+			}
+
+		}
+
+
+	}
+
+
+
+
+
 
 
 	CleanUp();

@@ -21,9 +21,9 @@ float TR1[3][6] = {
 }; 
 
 float TR2[3][6] = {
-	1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-	0.0f, 1.0f, 0.0f, 2.0f, 1.0f, 0.0f,
-	0.0f, 1.0f, 1.0f, 2.0f, -1.0f, 0.0f
+	1.0f, 0.0f, 1.0f, 0.0f, 0.5f, 0.0f,
+	0.0f, 1.0f, 0.0f, 1.0f, 0.5f, 0.0f,
+	0.0f, 1.0f, 1.0f, 1.0f, -0.5f, 0.0f
 };
 
 
@@ -228,6 +228,34 @@ int main(int argc, char * arg[]){
 				//set the running controller boolean to false
 				running = false;
 			}
+
+			/*EXPERIMENTAL BEGGINS*/
+
+			switch (event.type){
+				/* Look for a keypress */
+			case SDL_KEYDOWN:
+				/* Check the SDLKey values and move change the coords */
+				switch (event.key.keysym.sym){
+				case SDLK_LEFT:
+					TR2[1][3] -= 0.1f;
+					break;
+				case SDLK_RIGHT:
+					TR2[1][3] += 0.1f;
+					break;
+				case SDLK_UP:
+					TR2[1][4] += 0.1f;
+					break;
+				case SDLK_DOWN:
+					TR2[1][4] -= 0.1f;
+					break;
+
+				default:
+					break;
+				}
+			}
+
+
+			/*EXPERIMENTAL ENDS*/
 
 		}
 

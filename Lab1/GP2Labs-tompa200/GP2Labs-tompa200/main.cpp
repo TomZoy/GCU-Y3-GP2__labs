@@ -116,7 +116,9 @@ void DrawTriangle()
 	glBegin(GL_TRIANGLES);
 	glColor3f(1.0f, 0.0f, 0.0f); //colour of the vertices
 	glVertex3f(-1.0f, 1.0f, 0.0f); //top
+	glColor3f(0.0f, 1.0f, 0.0f); //colour of the vertices
 	glVertex3f(-1.0f, -1.0f, 0.0f); //bottom left
+	glColor3f(0.0f, 0.0f, 1.0f); //colour of the vertices
 	glVertex3f(1.0f, -1.0f, 0.0f); //top
 	glEnd();
 

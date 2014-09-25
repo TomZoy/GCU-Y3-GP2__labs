@@ -52,12 +52,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Specialised Applications\SDL2\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Specialised Applications\SDL2\include;D:\gitHub\GP2Labs-ztompa200\develop\SDL2-2.0.3\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Specialised Applications\SDL2\lib\x86</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Specialised Applications\SDL2\lib\x86;D:\gitHub\GP2Labs-ztompa200\develop\SDL2-2.0.3\lib\x86</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

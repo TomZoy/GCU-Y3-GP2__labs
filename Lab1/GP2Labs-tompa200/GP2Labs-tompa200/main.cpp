@@ -11,6 +11,21 @@ const int Window_Height = 480;
 bool running = true;
 SDL_GLContext glcontext = NULL; ////SDL GL Context
 
+/* WHERE THE TRIANGLES ARE DEFINED*/
+
+//3 value RGB colour + 3 value XYZ coordinates
+float TR1[3][6] = {
+	1.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,
+	0.0f, 1.0f, 0.0f, -1.0f, -1.0f, 0.0f,
+	0.0f, 0.0f, 1.0f, 1.0f, -1.0f, 0.0f
+}; 
+
+float TR2[3][6] = {
+	1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+	0.0f, 1.0f, 0.0f, 2.0f, 1.0f, 0.0f,
+	0.0f, 1.0f, 1.0f, 2.0f, -1.0f, 0.0f
+};
+
 
 
 
@@ -103,7 +118,7 @@ void setViewport(int width, int height)
 
 
 //function to draw the triangle
-void DrawTriangle()
+void DrawTriangle(float Tri[3][6])
 {
 	//switch to ModelView
 	glMatrixMode(GL_MODELVIEW);
@@ -114,12 +129,12 @@ void DrawTriangle()
 
 	//begin drawing the triangles
 	glBegin(GL_TRIANGLES);
-	glColor3f(1.0f, 0.0f, 0.0f); //colour of the vertices
-	glVertex3f(-1.0f, 1.0f, 0.0f); //top
-	glColor3f(0.0f, 1.0f, 0.0f); //colour of the vertices
-	glVertex3f(-1.0f, -1.0f, 0.0f); //bottom left
-	glColor3f(0.0f, 0.0f, 1.0f); //colour of the vertices
-	glVertex3f(1.0f, -1.0f, 0.0f); //top
+
+	for (int i = 0; i < 3; i++)
+	{
+		glColor3f(Tri[i][0], Tri[i][1], Tri[i][2]); //colour of the vertices
+		glVertex3f(Tri[i][3], Tri[i][4], Tri[i][5]); //top
+	}
 	glEnd();
 
 	/*
@@ -160,13 +175,18 @@ void render()
 	//clear the colour and depth-buffer
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
-	DrawTriangle();
-
+	DrawTriangle(TR1);
+	DrawTriangle(TR2);
 
 	//requirte to swap the back and front buffer
 	SDL_GL_SwapWindow(window);
 
 }
+
+
+
+
+
 
 
 

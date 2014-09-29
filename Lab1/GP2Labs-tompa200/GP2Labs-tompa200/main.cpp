@@ -3,6 +3,7 @@
 #include <SDL.h>; //header for SDL functionality
 #include <SDL_opengl.h>
 #include <gl\GLU.h>
+#include <time.h> 
 
 //global variables here
 SDL_Window * window;
@@ -10,6 +11,7 @@ const int Window_Width = 640; //constant to control window creation
 const int Window_Height = 480;
 bool running = true;
 SDL_GLContext glcontext = NULL; ////SDL GL Context
+double speed = 500;
 
 /* WHERE THE TRIANGLES ARE DEFINED*/
 
@@ -184,7 +186,34 @@ void render()
 }
 
 
+void MoveTriangle() //the "animation"
+{
+	TR2[0][4] -= 0.1f;
+	TR2[1][4] -= 0.1f;
+	TR2[2][4] -= 0.1f;
 
+	/* initialize random seed: */
+	srand(time(NULL));
+
+	if (TR2[0][4] < -2.0f) 
+	{
+		//reset to the top
+		TR2[0][4] = 4.0f;
+		TR2[1][4] = 4.0f;
+		TR2[2][4] = 3.0f;
+
+		//randomise the colour
+		
+		for (int h = 0; h < 3; h++)
+		{
+			for (int i = 0; i < 3; i++)
+			{
+				TR2[i][h] = ((rand() % 100 + 1) / 100.00);
+				// std::cout << "colour randomised = " << TR2[i][h] << ", "; //DEBUG INFO
+			}
+		}
+	}
+}
 
 
 
@@ -218,6 +247,11 @@ int main(int argc, char * arg[]){
 
 	SDL_Event event;
 
+
+	double t = 0.0; //timer for the game loop
+
+
+// --- GAME LOOP START --- //
 	while (running)
 	{
 		while (SDL_PollEvent(&event))
@@ -237,10 +271,14 @@ int main(int argc, char * arg[]){
 				/* Check the SDLKey values and move change the coords */
 				switch (event.key.keysym.sym){
 				case SDLK_LEFT:
+					TR2[0][3] -= 0.1f;
 					TR2[1][3] -= 0.1f;
+					TR2[2][3] -= 0.1f;
 					break;
 				case SDLK_RIGHT:
+					TR2[0][3] += 0.1f;
 					TR2[1][3] += 0.1f;
+					TR2[2][3] += 0.1f;
 					break;
 				case SDLK_UP:
 					TR2[1][4] += 0.1f;
@@ -257,11 +295,20 @@ int main(int argc, char * arg[]){
 
 			/*EXPERIMENTAL ENDS*/
 
+		} //event checking ends here
+
+
+		if (t > speed)
+		{	
+			MoveTriangle();
+			t = 0.0;
 		}
+		t++;
 
 
 		update();
 		render();
+		
 
 	}
 

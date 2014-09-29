@@ -11,7 +11,9 @@ const int Window_Width = 640; //constant to control window creation
 const int Window_Height = 480;
 bool running = true;
 SDL_GLContext glcontext = NULL; ////SDL GL Context
-double speed = 500;
+double fallSpeed = 500.00;
+double rotateSpeed = 1000.00;
+bool rotate = false;
 
 /* WHERE THE TRIANGLES ARE DEFINED*/
 
@@ -135,7 +137,7 @@ void DrawTriangle(float Tri[3][6])
 	for (int i = 0; i < 3; i++)
 	{
 		glColor3f(Tri[i][0], Tri[i][1], Tri[i][2]); //colour of the vertices
-		glVertex3f(Tri[i][3], Tri[i][4], Tri[i][5]); //top
+		glVertex3f(Tri[i][3], Tri[i][4], Tri[i][5]); //top/left/rigt
 	}
 	glEnd();
 
@@ -248,7 +250,9 @@ int main(int argc, char * arg[]){
 	SDL_Event event;
 
 
-	double t = 0.0; //timer for the game loop
+	double tFall = 0.0; //timer for the game loop for falling
+	double tRotate = 0.0; //timer for the game loop for rotation
+
 
 
 // --- GAME LOOP START --- //
@@ -298,12 +302,19 @@ int main(int argc, char * arg[]){
 		} //event checking ends here
 
 
-		if (t > speed)
+		if (tFall > fallSpeed)
 		{	
 			MoveTriangle();
-			t = 0.0;
+			tFall = 0.0;
 		}
-		t++;
+		tFall++;
+
+		if (tRotate > rotateSpeed)
+		{
+			rotate = 1;
+			tRotate = 0.0;
+		}
+		tRotate++;
 
 
 		update();

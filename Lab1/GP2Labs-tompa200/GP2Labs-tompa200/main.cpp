@@ -11,9 +11,12 @@ const int Window_Height = 480;
 bool running = true;
 SDL_GLContext glcontext = NULL; ////SDL GL Context
 <<<<<<< HEAD
+<<<<<<< HEAD
 double fallSpeed = 500.00;
 double rotateSpeed = 1000.00;
 bool rotate = false;
+=======
+>>>>>>> parent of 4629100... FUN PROJECT - falling rainbow triangles 1.
 =======
 >>>>>>> parent of 4629100... FUN PROJECT - falling rainbow triangles 1.
 
@@ -225,6 +228,7 @@ int main(int argc, char * arg[]){
 	SDL_Event event;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 	double tFall = 0.0; //timer for the game loop for falling
 	double tRotate = 0.0; //timer for the game loop for rotation
@@ -232,6 +236,8 @@ int main(int argc, char * arg[]){
 
 
 // --- GAME LOOP START --- //
+=======
+>>>>>>> parent of 4629100... FUN PROJECT - falling rainbow triangles 1.
 =======
 >>>>>>> parent of 4629100... FUN PROJECT - falling rainbow triangles 1.
 	while (running)
@@ -274,6 +280,7 @@ int main(int argc, char * arg[]){
 			/*EXPERIMENTAL ENDS*/
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 		} //event checking ends here
 
 
@@ -290,6 +297,9 @@ int main(int argc, char * arg[]){
 			tRotate = 0.0;
 		}
 		tRotate++;
+=======
+		}
+>>>>>>> parent of 4629100... FUN PROJECT - falling rainbow triangles 1.
 =======
 		}
 >>>>>>> parent of 4629100... FUN PROJECT - falling rainbow triangles 1.

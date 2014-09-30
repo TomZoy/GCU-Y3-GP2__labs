@@ -37,9 +37,9 @@ float TR2[3][6] = {
 
 
 
-
+//VERSION 1 - Triangle
 /*
-VERSION 1
+
 		float triangleData[]=
 		{
 			0.0f, 1.0f, 0.0f, //Top
@@ -50,7 +50,8 @@ VERSION 1
 */
 
 
-// VERSION 2
+//VERSION 2 - Triangle
+/* 
 
 Vertex triangleData[]
 {
@@ -70,10 +71,96 @@ Vertex triangleData[]
 	}
 
 };
+*/
 
 
+//Version 3 - CUBE 
+
+Vertex triangleData[] =
+{
+	//Front face
+
+	{ // 1. top left
+		-0.5f, 0.5f, 0.5f,
+		1.0f, 0.0f, 1.0f, 1.0f
+	},
+	
+	{ // 2. bottom left
+		-0.5f, -0.5f, 0.5f,
+		1.0f, 1.0f, 0.0f, 1.0f
+	},
+
+	{ // 3. bottom right
+		0.5f, -0.5f, 0.5f,
+		0.0f, 1.0f, 1.0f, 1.0f
+	},
+
+	{ // 4. top right
+		0.5f, 0.5f, 0.5f,
+		1.0f, 0.0f, 1.0f, 1.0f
+	},
+
+	{ // 5. (1.) top left
+		//-0.5f, 0.5f, 0.5f,
+		//1.0f, 0.0f, 1.0f, 1.0f
+
+		triangleData[0].x, triangleData[0].y, triangleData[0].z,
+		triangleData[0].r, triangleData[0].g, triangleData[0].b, triangleData[0].a
+
+	},
+
+	{ // 6. (3.) bottom right
+		//0.5f, -0.5f, 0.5f,
+		//0.0f, 1.0f, 1.0f, 1.0f
+		
+		triangleData[2].x, triangleData[2].y, triangleData[2].z,
+		triangleData[2].r, triangleData[2].g, triangleData[2].b, triangleData[2].a
+	},
 
 
+	//BACK face
+	
+	{ // 7. top left
+		-0.5f, 0.5f, -0.5f,
+		1.0f, 0.0f, 0.0f, 1.0f
+	},
+
+	{ // 8. bottom left
+		-0.5f, -0.5f, -0.5f,
+		1.0f, 1.0f, 1.0f, 1.0f
+	},
+
+	{ // 9. bottom right
+		0.5f, -0.5f, -0.5f,
+		0.0f, 1.0f, 1.0f, 1.0f
+	},
+
+	{ // 10. top right
+		0.5f, 0.5f, -0.5f,
+		0.0f, 0.0f, 1.0f, 1.0f
+	},
+
+	{ // 11. (1.) top left
+		//-0.5f, 0.5f, 0.5f,
+		//1.0f, 0.0f, 1.0f, 1.0f
+
+		triangleData[6].x, triangleData[6].y, triangleData[6].z,
+		triangleData[6].r, triangleData[6].g, triangleData[6].b, triangleData[6].a
+
+	},
+
+	{ // 12. (3.) bottom right
+		//0.5f, -0.5f, 0.5f,
+		//0.0f, 1.0f, 1.0f, 1.0f
+
+		triangleData[8].x, triangleData[8].y, triangleData[8].z,
+		triangleData[8].r, triangleData[8].g, triangleData[8].b, triangleData[8].a
+	},
+
+
+	
+
+};
 
 GLuint triangleVBO;
 
@@ -178,8 +265,9 @@ void setViewport(int width, int height)
 
 }
 
+// OLD function to draw the triangle
+/*
 
-//function to draw the triangle
 void DrawTriangle(float Tri[3][6])
 {
 	//switch to ModelView
@@ -199,7 +287,7 @@ void DrawTriangle(float Tri[3][6])
 	}
 	glEnd();
 
-	/*
+	
 
 	glMatrixMode(GL_MODELVIEW);
 	This switches the matrix mode state to the Model View mode, this mode is used to position our vertices in 3D space. We will often carry out a rotation, translation or scaling after this call.
@@ -222,10 +310,10 @@ void DrawTriangle(float Tri[3][6])
 	glEnd();
 	This ends the drawing process
 
-	*/
+	
 
 }
-
+*/
 
 
 void DrawTriLab2(int NoOfTri)
@@ -234,6 +322,16 @@ void DrawTriLab2(int NoOfTri)
 	{
 		//reset using identity matrix
 		glLoadIdentity();
+
+		//enable 3D space
+		gluLookAt(0.0,0.0,0.0,0.0,0.0,-1.0f,0.0,1.0f,0.0);
+		/*
+			1st three parameters: is the camera position in 3D space(x, y ,z)
+			2nd set of three parameters: the centre(look at point) in 3D space(x, y, z)
+			Last set of three parameter is the Up axis of the camera
+		*/
+
+
 
 		//translate
 		glTranslatef((-2.0f+i*2), 0.0f, -6.0f);
@@ -257,9 +355,8 @@ void render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	
+	//LAB 1 TASK DRAW 
 	/*
-	LAB 1 TASK DRAW 
-
 	DrawTriangle(TR1);
 	DrawTriangle(TR2);
 	*/
@@ -288,7 +385,8 @@ void render()
 
 	DrawTriLab2(3);
 
-	/* PULLED OUT AS A FUNCTION
+	//PULLED OUT AS A FUNCTION
+	/* 
 			//reset using identity matrix
 			glLoadIdentity();
 
@@ -307,6 +405,7 @@ void render()
 
 }
 
+//custom animation
 /*
 void MoveTriangle() //the "animation"
 {
@@ -451,6 +550,7 @@ int main(int argc, char * arg[]){
 
 		} //event checking ends here
 
+		//animation bit - DISABLED
 		/*
 		if (tFall > fallSpeed)
 		{

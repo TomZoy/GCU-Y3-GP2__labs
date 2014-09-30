@@ -3,6 +3,7 @@
 #include <SDL.h>; //header for SDL functionality
 #include <SDL_opengl.h>
 #include <gl\GLU.h>
+#include <time.h> 
 
 //global variables here
 SDL_Window * window;
@@ -10,18 +11,9 @@ const int Window_Width = 640; //constant to control window creation
 const int Window_Height = 480;
 bool running = true;
 SDL_GLContext glcontext = NULL; ////SDL GL Context
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-double fallSpeed = 500.00;
+double fallSpeed = 5.00;
 double rotateSpeed = 1000.00;
 bool rotate = false;
-=======
->>>>>>> parent of 4629100... FUN PROJECT - falling rainbow triangles 1.
-=======
->>>>>>> parent of 4629100... FUN PROJECT - falling rainbow triangles 1.
-=======
->>>>>>> parent of 4629100... FUN PROJECT - falling rainbow triangles 1.
 
 /* WHERE THE TRIANGLES ARE DEFINED*/
 
@@ -30,7 +22,7 @@ float TR1[3][6] = {
 	1.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,
 	0.0f, 1.0f, 0.0f, -1.0f, -1.0f, 0.0f,
 	0.0f, 0.0f, 1.0f, 1.0f, -1.0f, 0.0f
-}; 
+};
 
 float TR2[3][6] = {
 	1.0f, 0.0f, 1.0f, 0.0f, 0.5f, 0.0f,
@@ -75,22 +67,22 @@ void initOpenGL()
 	if (!glcontext)
 	{
 		std::cout << "ERROR CREATING OPENGL CONTEXT" << SDL_GetError() <<
-		std::endl;
+			std::endl;
 	}
 
 	//setting up some initial OpenGL states
-		//smooth shading
-		glShadeModel(GL_SMOOTH);
-		//clear the background to black
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-		//clear the depht buffer to 1.0
-		glClearDepth(1.0f);
-		//enable depht testing
-		glEnable(GL_DEPTH_TEST);
-		//the type of depht test to use
-		glDepthFunc(GL_LEQUAL);
-		//set perspective correction to best
-		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+	//smooth shading
+	glShadeModel(GL_SMOOTH);
+	//clear the background to black
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	//clear the depht buffer to 1.0
+	glClearDepth(1.0f);
+	//enable depht testing
+	glEnable(GL_DEPTH_TEST);
+	//the type of depht test to use
+	glDepthFunc(GL_LEQUAL);
+	//set perspective correction to best
+	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
 }
 
@@ -110,7 +102,7 @@ void setViewport(int width, int height)
 	ratio = (GLfloat)width / (GLfloat)height;
 
 	//set-up viewport
-	glViewport(0,0,(GLsizei)width, (GLsizei)height);
+	glViewport(0, 0, (GLsizei)width, (GLsizei)height);
 
 
 	//change to project matrix mode
@@ -150,31 +142,31 @@ void DrawTriangle(float Tri[3][6])
 	glEnd();
 
 	/*
-	
-glMatrixMode(GL_MODELVIEW);
-This switches the matrix mode state to the Model View mode, this mode is used to position our vertices in 3D space. We will often carry out a rotation, translation or scaling after this call.
 
-glLoadIdentity();
-This will push the identity matrix onto the current matrix(in this case ModelView , see above).  The identity matrix is like setting a value to 1(a gross simplification but will do for now).
+	glMatrixMode(GL_MODELVIEW);
+	This switches the matrix mode state to the Model View mode, this mode is used to position our vertices in 3D space. We will often carry out a rotation, translation or scaling after this call.
 
-glTranslatef(0.0f,0.0f,-5.0f);
-Will push a translation matrix  onto the current matrix, in this case it will translate the current matrix -5.0f units.
+	glLoadIdentity();
+	This will push the identity matrix onto the current matrix(in this case ModelView , see above).  The identity matrix is like setting a value to 1(a gross simplification but will do for now).
 
-glBegin(GL_TRIANGLES);
-This begins the drawing process, we pass in the primitive type we are going to draw.
+	glTranslatef(0.0f,0.0f,-5.0f);
+	Will push a translation matrix  onto the current matrix, in this case it will translate the current matrix -5.0f units.
 
-glColor(1.0f,0.0f,0.0f);
-This sets the colour of the vertices where each component is a floating point number(0.0f – 1.0f) and represents red, green and blue.
+	glBegin(GL_TRIANGLES);
+	This begins the drawing process, we pass in the primitive type we are going to draw.
 
-glVertex3f(1.0f,0.0f,0.0f);
-This specifies a Vertex using an x. y and z positional values.
+	glColor(1.0f,0.0f,0.0f);
+	This sets the colour of the vertices where each component is a floating point number(0.0f ? 1.0f) and represents red, green and blue.
 
-glEnd();
-This ends the drawing process
+	glVertex3f(1.0f,0.0f,0.0f);
+	This specifies a Vertex using an x. y and z positional values.
+
+	glEnd();
+	This ends the drawing process
 
 	*/
 
-	}
+}
 
 
 
@@ -185,7 +177,7 @@ void render()
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 	//clear the colour and depth-buffer
-	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	DrawTriangle(TR1);
 	DrawTriangle(TR2);
@@ -196,7 +188,34 @@ void render()
 }
 
 
+void MoveTriangle() //the "animation"
+{
+	TR2[0][4] -= 0.1f;
+	TR2[1][4] -= 0.1f;
+	TR2[2][4] -= 0.1f;
 
+	/* initialize random seed: */
+	srand(time(NULL));
+
+	if (TR2[0][4] < -2.0f)
+	{
+		//reset to the top
+		TR2[0][4] = 4.0f;
+		TR2[1][4] = 4.0f;
+		TR2[2][4] = 3.0f;
+
+		//randomise the colour
+
+		for (int h = 0; h < 3; h++)
+		{
+			for (int i = 0; i < 3; i++)
+			{
+				TR2[i][h] = ((rand() % 100 + 1) / 100.00);
+				// std::cout << "colour randomised = " << TR2[i][h] << ", "; //DEBUG INFO
+			}
+		}
+	}
+}
 
 
 
@@ -225,27 +244,18 @@ int main(int argc, char * arg[]){
 	//Call out InitOpenGL Function
 	initOpenGL();
 	//Set out Viewport
-	setViewport(Window_Width,Window_Height);
+	setViewport(Window_Width, Window_Height);
 
 
 	SDL_Event event;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 	double tFall = 0.0; //timer for the game loop for falling
 	double tRotate = 0.0; //timer for the game loop for rotation
 
 
 
-// --- GAME LOOP START --- //
-=======
->>>>>>> parent of 4629100... FUN PROJECT - falling rainbow triangles 1.
-=======
->>>>>>> parent of 4629100... FUN PROJECT - falling rainbow triangles 1.
-=======
->>>>>>> parent of 4629100... FUN PROJECT - falling rainbow triangles 1.
+	// --- GAME LOOP START --- //
 	while (running)
 	{
 		while (SDL_PollEvent(&event))
@@ -265,10 +275,14 @@ int main(int argc, char * arg[]){
 				/* Check the SDLKey values and move change the coords */
 				switch (event.key.keysym.sym){
 				case SDLK_LEFT:
+					TR2[0][3] -= 0.1f;
 					TR2[1][3] -= 0.1f;
+					TR2[2][3] -= 0.1f;
 					break;
 				case SDLK_RIGHT:
+					TR2[0][3] += 0.1f;
 					TR2[1][3] += 0.1f;
+					TR2[2][3] += 0.1f;
 					break;
 				case SDLK_UP:
 					TR2[1][4] += 0.1f;
@@ -285,14 +299,11 @@ int main(int argc, char * arg[]){
 
 			/*EXPERIMENTAL ENDS*/
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 		} //event checking ends here
 
 
 		if (tFall > fallSpeed)
-		{	
+		{
 			MoveTriangle();
 			tFall = 0.0;
 		}
@@ -304,19 +315,11 @@ int main(int argc, char * arg[]){
 			tRotate = 0.0;
 		}
 		tRotate++;
-=======
-		}
->>>>>>> parent of 4629100... FUN PROJECT - falling rainbow triangles 1.
-=======
-		}
->>>>>>> parent of 4629100... FUN PROJECT - falling rainbow triangles 1.
-=======
-		}
->>>>>>> parent of 4629100... FUN PROJECT - falling rainbow triangles 1.
 
 
 		update();
 		render();
+
 
 	}
 

@@ -7,6 +7,8 @@
 #include <time.h>
 
 
+//test
+
 //global variables here
 SDL_Window * window;
 const int Window_Width = 640; //constant to control window creation
@@ -33,6 +35,14 @@ float TR2[3][6] = {
 };
 
 
+float triangleData[]=
+{
+	0.0f, 1.0f, 0.0f, //Top
+	-1.0f, -1.0f, 0.0f, //bottom left
+	1.0f, -1.0, 0.0f //bottom right
+};
+
+GLuint triangleVBO;
 
 
 void InitWindow(int width, int height, bool fullscreen)
@@ -54,6 +64,7 @@ void InitWindow(int width, int height, bool fullscreen)
 //function to clean up resources after the code closes
 void CleanUp()
 {
+	glDeleteBuffers(1, &triangleVBO);  // This will delete the number of buffers specified(1st parameter), with the actual buffers being passed in as the 2nd parametr
 	SDL_GL_DeleteContext(glcontext);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
@@ -85,6 +96,18 @@ void initOpenGL()
 	glDepthFunc(GL_LEQUAL);
 	//set perspective correction to best
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+
+
+	//init GLEW
+
+	GLenum err = glewInit();
+	if (GLEW_OK != err)
+	{
+		/*Problem: glewInt failed to, something is wrong*/
+		std::cout << "Error: " << glewGetErrorString(err) << std::endl;
+	}
+
+
 
 }
 
@@ -181,8 +204,41 @@ void render()
 	//clear the colour and depth-buffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	
+	/*
+	LAB 1 TASK DRAW 
+
 	DrawTriangle(TR1);
 	DrawTriangle(TR2);
+	*/
+
+	/*
+	LAB 2 TAKS DRAW START 
+	*/
+
+	//Make the new VBO active. Repeat here as sanity check (may have changed since inisialisation)
+	glBindBuffer(GL_ARRAY_BUFFER,triangleVBO);
+
+	//Establish its 3 coordinates per vertex with zero stride (pace between elements) in array and contaon floating point numbers
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+
+	//Establish array contains vertecies (not normals, colours, texture coords etc)
+	glEnableClientState(GL_VERTEX_ARRAY);
+
+
+	//switch to model view
+	glMatrixMode(GL_MODELVIEW);
+
+	//reset using identity matrix
+	glLoadIdentity();
+
+	//translate
+	glTranslatef(0.0f,0.0f,-6.0f);
+
+	//actually draw the triangle, giving the number of vertecies provided
+	glDrawArrays(GL_TRIANGLES, 0, sizeof(triangleData) / (3 * sizeof(float)));
+
+	/* LAB 2 END */
 
 	//requirte to swap the back and front buffer
 	SDL_GL_SwapWindow(window);
@@ -230,6 +286,35 @@ void update()
 
 }
 
+void initGeometry()
+{
+	//create buffer
+	glGenBuffers(1, &triangleVBO);
+	//Make the new VBO active
+	glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
+	//copy vertex data to VBO
+	glBufferData(GL_ARRAY_BUFFER, sizeof(triangleData), triangleData, GL_STATIC_DRAW);
+
+		/*
+	
+	glGenBuffers call	takes	in	an	integer	which	specifies the	number	of	buffers	you	
+	are	going	to	generate	and	the	2nd parameter	is	a	pointer	to	one	or	an	array	of	
+	integers.
+
+	glBindBuffer call	binds	the	specified	buffer(2nd parameter)	to	the	pipeline(this	
+	is	a	state!),	the	1st parameter	specifies what	type	of	buffer	we	are	binding(Array	
+	Buffer)	will	hold	vertices.
+	
+	glBufferData copies	data	to	the	bound	buffer,	1st	parameter	is	what	type	of	
+	buffer	we	are	copying	too,	2nd parameter	is	the	size	of	the	data	we	are	copying	
+	into	the	buffer,	3rd parameter	is	the	actual	data	we	are	copying,	and the	last	
+	parameter	is	a	hint	to	OpenGL	on	what	do	with	the	buffer	data,	in	this	case	the	
+	data	in	the	buffer	will	not	be	updated.
+		
+		*/
+	
+}
+
 
 //Main Methood entry point
 int main(int argc, char * arg[]){
@@ -245,6 +330,7 @@ int main(int argc, char * arg[]){
 
 	//Call out InitOpenGL Function
 	initOpenGL();
+	initGeometry();
 	//Set out Viewport
 	setViewport(Window_Width, Window_Height);
 
@@ -303,7 +389,7 @@ int main(int argc, char * arg[]){
 
 		} //event checking ends here
 
-
+		/*
 		if (tFall > fallSpeed)
 		{
 			MoveTriangle();
@@ -317,7 +403,7 @@ int main(int argc, char * arg[]){
 			tRotate = 0.0;
 		}
 		tRotate++;
-
+		*/
 
 		update();
 		render();

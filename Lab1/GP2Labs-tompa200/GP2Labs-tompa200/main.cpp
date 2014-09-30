@@ -20,6 +20,19 @@ double fallSpeed = 5.00;
 double rotateSpeed = 1000.00;
 bool rotate = false;
 
+ColorStruct Color[] = 
+{
+	{ 0.0f, 0.0f, 0.0f, 1.0f },
+	{ 0.0f, 0.0f, 1.0f, 1.0f },
+	{ 0.0f, 1.0f, 0.0f, 1.0f },
+	{ 0.0f, 1.0f, 1.0f, 1.0f },
+	{ 1.0f, 0.0f, 0.0f, 1.0f },
+	{ 1.0f, 0.0f, 1.0f, 1.0f },
+	{ 1.0f, 1.0f, 0.0f, 1.0f },
+	{ 1.0f, 1.0f, 1.0f, 1.0f }
+};
+
+
 /* WHERE THE TRIANGLES ARE DEFINED*/
 
 //3 value RGB colour + 3 value XYZ coordinates
@@ -76,6 +89,19 @@ Vertex triangleData[]
 
 //Version 3 - CUBE 
 
+float getVertex(int index)
+{
+	return triangleData[index];
+
+/*	return triangleData[index].y;
+	return triangleData[index].z;
+	return triangleData[index].r;
+	return triangleData[index].g;
+	return triangleData[index].b;
+	return triangleData[index].a;
+	*/
+	}
+
 Vertex triangleData[] =
 {
 	//Front face
@@ -83,30 +109,36 @@ Vertex triangleData[] =
 	{ // 1. top left
 		-0.5f, 0.5f, 0.5f,
 		1.0f, 0.0f, 1.0f, 1.0f
+		
 	},
 	
 	{ // 2. bottom left
 		-0.5f, -0.5f, 0.5f,
 		1.0f, 1.0f, 0.0f, 1.0f
+		
 	},
 
 	{ // 3. bottom right
 		0.5f, -0.5f, 0.5f,
 		0.0f, 1.0f, 1.0f, 1.0f
+		
 	},
 
 	{ // 4. top right
 		0.5f, 0.5f, 0.5f,
 		1.0f, 0.0f, 1.0f, 1.0f
+		
 	},
 
 	{ // 5. (1.) top left
 		//-0.5f, 0.5f, 0.5f,
 		//1.0f, 0.0f, 1.0f, 1.0f
 
+		/*
 		triangleData[0].x, triangleData[0].y, triangleData[0].z,
 		triangleData[0].r, triangleData[0].g, triangleData[0].b, triangleData[0].a
-
+		*/
+		getVertex(0);
 	},
 
 	{ // 6. (3.) bottom right

@@ -12,8 +12,18 @@ THIS SOLUTION IS PLATFORM INDEPENDENT!!!
 
 struct Vertex
 {
-	float x, y, z;
+	//float x, y, z;
+	//float r, g, b, a;
+
+	float x, y, z, r, g, b, a;
+
+};
+
+struct ColorStruct
+{
 	float r, g, b, a;
 };
+
+enum colors { black, blue, green, cyan, red, purple, yellow, white };
 
 #endif

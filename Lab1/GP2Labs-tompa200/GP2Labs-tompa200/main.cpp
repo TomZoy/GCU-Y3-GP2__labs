@@ -39,7 +39,8 @@ float triangleData[]=
 {
 	0.0f, 1.0f, 0.0f, //Top
 	-1.0f, -1.0f, 0.0f, //bottom left
-	1.0f, -1.0, 0.0f //bottom right
+	1.0f, -1.0, 0.0f, //bottom right
+	//2.0f,0.0f,0.0f
 };
 
 GLuint triangleVBO;
@@ -50,7 +51,7 @@ void InitWindow(int width, int height, bool fullscreen)
 {
 	window = SDL_CreateWindow(
 
-		"Lab 1", //window title
+		"Lab 2", //window title
 		SDL_WINDOWPOS_CENTERED, //w cetered
 		SDL_WINDOWPOS_CENTERED, //h centered
 		width, // width, in pixels
@@ -195,6 +196,25 @@ void DrawTriangle(float Tri[3][6])
 
 
 
+void DrawTriLab2(int NoOfTri)
+{
+	for (int i = 0; i < NoOfTri; i++)
+	{
+		//reset using identity matrix
+		glLoadIdentity();
+
+		//translate
+		glTranslatef((-2.0f+i*2), 0.0f, -6.0f);
+
+		//actually draw the triangle, giving the number of vertecies provided
+		glDrawArrays(GL_TRIANGLES, 0, sizeof(triangleData) / (3 * sizeof(float)));
+
+	}
+}
+
+
+
+
 //function to draw
 void render()
 {
@@ -229,14 +249,19 @@ void render()
 	//switch to model view
 	glMatrixMode(GL_MODELVIEW);
 
-	//reset using identity matrix
-	glLoadIdentity();
+	DrawTriLab2(3);
 
-	//translate
-	glTranslatef(0.0f,0.0f,-6.0f);
+	/* PULLED OUT AS A FUNCTION
+			//reset using identity matrix
+			glLoadIdentity();
 
-	//actually draw the triangle, giving the number of vertecies provided
-	glDrawArrays(GL_TRIANGLES, 0, sizeof(triangleData) / (3 * sizeof(float)));
+			//translate
+			glTranslatef(0.0f,0.0f,-6.0f);
+
+			//actually draw the triangle, giving the number of vertecies provided
+			glDrawArrays(GL_TRIANGLES, 0, sizeof(triangleData) / (3 * sizeof(float)));
+	*/
+
 
 	/* LAB 2 END */
 
@@ -245,14 +270,14 @@ void render()
 
 }
 
-
+/*
 void MoveTriangle() //the "animation"
 {
 	TR2[0][4] -= 0.1f;
 	TR2[1][4] -= 0.1f;
 	TR2[2][4] -= 0.1f;
 
-	/* initialize random seed: */
+	// initialize random seed: 
 	srand(time(NULL));
 
 	if (TR2[0][4] < -2.0f)
@@ -276,7 +301,7 @@ void MoveTriangle() //the "animation"
 }
 
 
-
+*/
 
 
 

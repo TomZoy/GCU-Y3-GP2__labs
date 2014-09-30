@@ -1,9 +1,11 @@
-//headerfiles
-#include <iostream>; //include for input/output handling
-#include <SDL.h>; //header for SDL functionality
+﻿//headerfiles
+#include <iostream> //include for input/output handling
+#include <gl/glew.h>
+#include <SDL.h> //header for SDL functionality
 #include <SDL_opengl.h>
 #include <gl\GLU.h>
-#include <time.h> 
+#include <time.h>
+
 
 //global variables here
 SDL_Window * window;
@@ -156,7 +158,7 @@ void DrawTriangle(float Tri[3][6])
 	This begins the drawing process, we pass in the primitive type we are going to draw.
 
 	glColor(1.0f,0.0f,0.0f);
-	This sets the colour of the vertices where each component is a floating point number(0.0f ? 1.0f) and represents red, green and blue.
+	This sets the colour of the vertices where each component is a floating point number(0.0f � 1.0f) and represents red, green and blue.
 
 	glVertex3f(1.0f,0.0f,0.0f);
 	This specifies a Vertex using an x. y and z positional values.

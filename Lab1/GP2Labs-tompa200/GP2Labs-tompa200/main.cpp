@@ -5,6 +5,7 @@
 #include <SDL_opengl.h>
 #include <gl\GLU.h>
 #include <time.h>
+#include "Vertex.h" //"" for includes from the same directory
 
 
 //test
@@ -35,13 +36,44 @@ float TR2[3][6] = {
 };
 
 
-float triangleData[]=
+
+
+/*
+VERSION 1
+		float triangleData[]=
+		{
+			0.0f, 1.0f, 0.0f, //Top
+			-1.0f, -1.0f, 0.0f, //bottom left
+			1.0f, -1.0, 0.0f, //bottom right
+			//2.0f,0.0f,0.0f
+		};
+*/
+
+
+// VERSION 2
+
+Vertex triangleData[]
 {
-	0.0f, 1.0f, 0.0f, //Top
-	-1.0f, -1.0f, 0.0f, //bottom left
-	1.0f, -1.0, 0.0f, //bottom right
-	//2.0f,0.0f,0.0f
+	{
+		0.0f,1.0f,0.0f,			 //x, y, z
+		1.0f,0.0f,0.0f,1.0f		//r, g, b, a
+	},
+
+	{
+		-1.0f, -1.0f, 0.0f,			 //x, y, z
+		0.0f, 1.0f, 0.0f, 1.0f		//r, g, b, a
+	},
+
+	{
+		1.0f, -1.0f, 0.0f,			 //x, y, z
+		0.0f, 0.0f, 1.0f, 1.0f		//r, g, b, a
+	}
+
 };
+
+
+
+
 
 GLuint triangleVBO;
 
@@ -207,7 +239,7 @@ void DrawTriLab2(int NoOfTri)
 		glTranslatef((-2.0f+i*2), 0.0f, -6.0f);
 
 		//actually draw the triangle, giving the number of vertecies provided
-		glDrawArrays(GL_TRIANGLES, 0, sizeof(triangleData) / (3 * sizeof(float)));
+		glDrawArrays(GL_TRIANGLES, 0, sizeof(triangleData) / (sizeof(Vertex)));
 
 	}
 }
@@ -240,10 +272,15 @@ void render()
 	glBindBuffer(GL_ARRAY_BUFFER,triangleVBO);
 
 	//Establish its 3 coordinates per vertex with zero stride (pace between elements) in array and contaon floating point numbers
-	glVertexPointer(3, GL_FLOAT, 0, NULL);
+	glVertexPointer(3, GL_FLOAT, sizeof(Vertex), NULL);
+
+
+	//to slise up the buffer
+	glColorPointer(4,GL_FLOAT,sizeof(Vertex),(void**)(3*sizeof(float)));
 
 	//Establish array contains vertecies (not normals, colours, texture coords etc)
 	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
 
 
 	//switch to model view

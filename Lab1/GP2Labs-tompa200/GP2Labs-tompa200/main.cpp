@@ -20,6 +20,8 @@ double fallSpeed = 5.00;
 double rotateSpeed = 1000.00;
 bool rotate = false;
 
+GLuint triangleEBO;
+
 ColorStruct Color[] = 
 {
 	{ 0.0f, 0.0f, 0.0f, 1.0f },
@@ -89,18 +91,7 @@ Vertex triangleData[]
 
 //Version 3 - CUBE 
 
-float getVertex(int index)
-{
-	return triangleData[index];
-
-/*	return triangleData[index].y;
-	return triangleData[index].z;
-	return triangleData[index].r;
-	return triangleData[index].g;
-	return triangleData[index].b;
-	return triangleData[index].a;
-	*/
-	}
+/*
 
 Vertex triangleData[] =
 {
@@ -134,11 +125,11 @@ Vertex triangleData[] =
 		//-0.5f, 0.5f, 0.5f,
 		//1.0f, 0.0f, 1.0f, 1.0f
 
-		/*
+		
 		triangleData[0].x, triangleData[0].y, triangleData[0].z,
 		triangleData[0].r, triangleData[0].g, triangleData[0].b, triangleData[0].a
-		*/
-		getVertex(0);
+
+
 	},
 
 	{ // 6. (3.) bottom right
@@ -147,6 +138,8 @@ Vertex triangleData[] =
 		
 		triangleData[2].x, triangleData[2].y, triangleData[2].z,
 		triangleData[2].r, triangleData[2].g, triangleData[2].b, triangleData[2].a
+
+
 	},
 
 
@@ -189,10 +182,73 @@ Vertex triangleData[] =
 		triangleData[8].r, triangleData[8].g, triangleData[8].b, triangleData[8].a
 	},
 
+	{
+		//&triangleData[0]
+	
+	}
+
 
 	
 
 };
+
+
+void overwrite()
+
+{
+	triangleData[4] = triangleData[0];
+	triangleData[5] = triangleData[2];
+}
+
+*/
+
+// Version 4 - CUBE
+
+Vertex triangleData[] = {
+	//Front
+		{ -0.5f, 0.5f, 0.5f,
+		1.0f, 0.0f, 1.0f, 1.0f },// Top Left
+		{ -0.5f, -0.5f, 0.5f,
+		1.0f, 1.0f, 0.0f, 1.0f },// Bottom Left
+		{ 0.5f, -0.5f, 0.5f,
+		0.0f, 1.0f, 1.0f, 1.0f }, //Bottom Right
+		{ 0.5f, 0.5f, 0.5f,
+		1.0f, 0.0f, 1.0f, 1.0f },// Top Right
+
+		//back
+		{ -0.5f, 0.5f, -0.5f,
+		1.0f, 0.0f, 1.0f, 1.0f },// Top Left
+		{ -0.5f, -0.5f, -0.5f,
+		1.0f, 1.0f, 0.0f, 1.0f },// Bottom Left
+		{ 0.5f, -0.5f, -0.5f,
+		0.0f, 1.0f, 1.0f, 1.0f }, //Bottom Right
+		{ 0.5f, 0.5f, -0.5f,
+		1.0f, 0.0f, 1.0f, 1.0f },// Top Right
+};
+
+/*note: these indices represent an index of a vertex in the VBO*/
+GLuint indices[] = {
+	//front
+	0, 1, 2,
+	0, 3, 2,
+	//left
+	4, 5, 1,
+	4, 1, 0,
+	//right
+	3, 7, 2,
+	7, 6, 2,
+	//bottom
+	1, 5, 2,
+	6, 2, 1,
+	//top
+	5, 0, 7,
+	5, 7, 3,
+	//back
+	4, 5, 6,
+	4, 7, 6
+};
+
+
 
 GLuint triangleVBO;
 
@@ -216,6 +272,7 @@ void InitWindow(int width, int height, bool fullscreen)
 //function to clean up resources after the code closes
 void CleanUp()
 {
+	glDeleteBuffers(1, &triangleEBO);
 	glDeleteBuffers(1, &triangleVBO);  // This will delete the number of buffers specified(1st parameter), with the actual buffers being passed in as the 2nd parametr
 	SDL_GL_DeleteContext(glcontext);
 	SDL_DestroyWindow(window);
@@ -368,8 +425,11 @@ void DrawTriLab2(int NoOfTri)
 		//translate
 		glTranslatef((-2.0f+i*2), 0.0f, -6.0f);
 
-		//actually draw the triangle, giving the number of vertecies provided
-		glDrawArrays(GL_TRIANGLES, 0, sizeof(triangleData) / (sizeof(Vertex)));
+		//actually draw the triangle, giving the number of vertecies provided - for VBO-s
+		//glDrawArrays(GL_TRIANGLES, 0, sizeof(triangleData) / (sizeof(Vertex)));
+
+		//actually draws the object, VBOs and EBOs
+		glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, 0);
 
 	}
 }
@@ -383,7 +443,7 @@ void render()
 	//set the clear colour
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-	//clear the colour and depth-buffer
+	//clear the colour and depth-buffer	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	
@@ -399,6 +459,8 @@ void render()
 
 	//Make the new VBO active. Repeat here as sanity check (may have changed since inisialisation)
 	glBindBuffer(GL_ARRAY_BUFFER,triangleVBO);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, triangleEBO);
 
 	//Establish its 3 coordinates per vertex with zero stride (pace between elements) in array and contaon floating point numbers
 	glVertexPointer(3, GL_FLOAT, sizeof(Vertex), NULL);
@@ -505,8 +567,20 @@ void initGeometry()
 	data	in	the	buffer	will	not	be	updated.
 		
 		*/
+
+
+	//create buffer
+	glGenBuffers(1, &triangleEBO);
+	//Make the EBO active
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, triangleEBO);
+	//Copy Index data to the EBO
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 	
 }
+
+
+
+
 
 
 //Main Methood entry point
@@ -526,6 +600,8 @@ int main(int argc, char * arg[]){
 	initGeometry();
 	//Set out Viewport
 	setViewport(Window_Width, Window_Height);
+
+
 
 
 	SDL_Event event;

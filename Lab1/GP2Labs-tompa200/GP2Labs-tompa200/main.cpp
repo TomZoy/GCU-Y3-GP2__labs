@@ -282,6 +282,12 @@ void CleanUp()
 //function to initialise OpenGL
 void initOpenGL()
 {
+
+	//Ask for version 3.2 of OpenGL
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
 	//create openGL context
 	glcontext = SDL_GL_CreateContext(window);
 
@@ -306,9 +312,10 @@ void initOpenGL()
 	//set perspective correction to best
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
+	//enable experimental for programmable pipeline
+	glewExperimental = GL_TRUE;
 
 	//init GLEW
-
 	GLenum err = glewInit();
 	if (GLEW_OK != err)
 	{
@@ -339,18 +346,7 @@ void setViewport(int width, int height)
 	glViewport(0, 0, (GLsizei)width, (GLsizei)height);
 
 
-	//change to project matrix mode
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-
-	//calculate perspective matrix, using glu libary functions
-	gluPerspective(45.0f, ratio, 0.1f, 100.0f);
-
-	//switch to Model View
-	glMatrixMode(GL_MODELVIEW);
-
-	//reset using identity matrix
-	glLoadIdentity();
+	
 
 }
 
@@ -405,34 +401,7 @@ void DrawTriangle(float Tri[3][6])
 */
 
 
-void DrawTriLab2(int NoOfTri)
-{
-	for (int i = 0; i < NoOfTri; i++)
-	{
-		//reset using identity matrix
-		glLoadIdentity();
 
-		//enable 3D space
-		gluLookAt(0.0,0.0,0.0,0.0,0.0,-1.0f,0.0,1.0f,0.0);
-		/*
-			1st three parameters: is the camera position in 3D space(x, y ,z)
-			2nd set of three parameters: the centre(look at point) in 3D space(x, y, z)
-			Last set of three parameter is the Up axis of the camera
-		*/
-
-
-
-		//translate
-		glTranslatef((-2.0f+i*2), 0.0f, -6.0f);
-
-		//actually draw the triangle, giving the number of vertecies provided - for VBO-s
-		//glDrawArrays(GL_TRIANGLES, 0, sizeof(triangleData) / (sizeof(Vertex)));
-
-		//actually draws the object, VBOs and EBOs
-		glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, 0);
-
-	}
-}
 
 
 
@@ -447,54 +416,13 @@ void render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	
-	//LAB 1 TASK DRAW 
-	/*
-	DrawTriangle(TR1);
-	DrawTriangle(TR2);
-	*/
-
-	/*
-	LAB 2 TAKS DRAW START 
-	*/
 
 	//Make the new VBO active. Repeat here as sanity check (may have changed since inisialisation)
 	glBindBuffer(GL_ARRAY_BUFFER,triangleVBO);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, triangleEBO);
 
-	//Establish its 3 coordinates per vertex with zero stride (pace between elements) in array and contaon floating point numbers
-	glVertexPointer(3, GL_FLOAT, sizeof(Vertex), NULL);
-
-
-	//to slise up the buffer
-	glColorPointer(4,GL_FLOAT,sizeof(Vertex),(void**)(3*sizeof(float)));
-
-	//Establish array contains vertecies (not normals, colours, texture coords etc)
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-
-
-	//switch to model view
-	glMatrixMode(GL_MODELVIEW);
-
-	DrawTriLab2(3);
-
-	//PULLED OUT AS A FUNCTION
-	/* 
-			//reset using identity matrix
-			glLoadIdentity();
-
-			//translate
-			glTranslatef(0.0f,0.0f,-6.0f);
-
-			//actually draw the triangle, giving the number of vertecies provided
-			glDrawArrays(GL_TRIANGLES, 0, sizeof(triangleData) / (3 * sizeof(float)));
-	*/
-
-
-	/* LAB 2 END */
-
-	//requirte to swap the back and front buffer
+	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 	SDL_GL_SwapWindow(window);
 
 }

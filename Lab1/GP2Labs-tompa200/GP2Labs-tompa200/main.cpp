@@ -515,6 +515,17 @@ void initGeometry()
 }
 
 
+//SHADERS !!!!
+void createShader()
+{
+	GLuint vertexShaderProgram = 0;
+	std::string	vsPath = ASSET_PATH + SHADER_PATH + "/simpleVS.glsl";
+	vertexShaderProgram = loadShaderFromFile(vsPath, VERTEX_SHADER);
+
+	GLuint fragmentShaderProgram = 0;
+	std::string fsPath = ASSET_PATH + SHADER_PATH + "/simpleFS.glsl";
+	fragmentShaderProgram = loadShaderFromFile(fsPath, FRAGMENT_SHADER);
+}
 
 
 
@@ -545,6 +556,9 @@ int main(int argc, char * arg[]){
 
 	double tFall = 0.0; //timer for the game loop for falling
 	double tRotate = 0.0; //timer for the game loop for rotation
+
+
+
 
 
 

@@ -36,7 +36,9 @@ double fallSpeed = 5.00;
 double rotateSpeed = 1000.00;
 bool rotate = false;
 
+GLuint triangleVBO;
 GLuint triangleEBO;
+GLuint VAO;
 
 ColorStruct Color[] = 
 {
@@ -274,7 +276,7 @@ GLuint indices[] = {
 
 
 
-GLuint triangleVBO;
+
 
 
 void InitWindow(int width, int height, bool fullscreen)
@@ -298,6 +300,7 @@ void CleanUp()
 {
 	glDeleteProgram(shaderProgram);
 	glDeleteBuffers(1, &triangleEBO);
+	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &triangleVBO);  // This will delete the number of buffers specified(1st parameter), with the actual buffers being passed in as the 2nd parametr
 	SDL_GL_DeleteContext(glcontext);
 	SDL_DestroyWindow(window);
@@ -440,7 +443,7 @@ void render()
 	//clear the colour and depth-buffer	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	
+	glBindVertexArray(VAO);
 
 	//Make the new VBO active. Repeat here as sanity check (may have changed since inisialisation)
 	glBindBuffer(GL_ARRAY_BUFFER,triangleVBO);
@@ -458,7 +461,7 @@ void render()
 
 	//Tell the shader	that 0	is	the	position element 
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0,3,	GL_FLOAT,	GL_FALSE,	0,	NULL);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
 
 
 
@@ -513,6 +516,10 @@ void update()
 
 void initGeometry()
 {
+
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
+
 	//create buffer
 	glGenBuffers(1, &triangleVBO);
 	//Make the new VBO active

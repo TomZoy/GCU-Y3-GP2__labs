@@ -18,4 +18,6 @@ GLuint loadShaderFromFile(const std::string& filename, SHADER_TYPE shaderType);
 
 //load a shader from a char array
 GLuint loadShaderFromMemory(const char * pMem, SHADER_TYPE shaderType);
+
+bool checkForCompilerErrors(GLuint shaderProgram);
 #endif

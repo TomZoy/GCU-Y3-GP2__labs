@@ -432,6 +432,15 @@ void render()
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, triangleEBO);
 
+
+	glUseProgram(shaderProgram);
+
+	//Tell the shader	that 0	is	the	position element 
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0,3,	GL_FLOAT,	GL_FALSE,	0,	NULL);
+
+
+
 	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 	SDL_GL_SwapWindow(window);
 
@@ -527,6 +536,8 @@ void createShader()
 	GLuint fragmentShaderProgram = 0;
 	std::string fsPath = ASSET_PATH + SHADER_PATH + "/simpleFS.glsl";
 	fragmentShaderProgram = loadShaderFromFile(fsPath, FRAGMENT_SHADER);
+
+	glBindAttribLocation(shaderProgram,	0, "vertexPosition");
 
 	shaderProgram =	glCreateProgram();
 	glAttachShader(shaderProgram,	vertexShaderProgram);

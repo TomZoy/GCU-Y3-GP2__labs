@@ -6,19 +6,19 @@
 #include <gl\GLU.h>
 #include <time.h>
 #include "Vertex.h" //"" for includes from the same directory
+#include "Shader.h"
 
-//maths headers
-#include <glm / glm.hpp>
+#include <glm/glm.hpp>
 using glm::mat4;
 using glm::vec3;
-#include <glm / gtc / matrix_transform.hpp>
-#include <glm / gtc / type_ptr.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 
 
 
 #ifdef _DEBUG && WIN32
-const std::string ASSET_PATH = "../assets";
+const std::string ASSET_PATH = "assets";
 #else
 const std::string ASSET_PATH = "assets";
 #endif
@@ -28,8 +28,8 @@ const std::string SHADER_PATH = "/shaders";
 
 //global variables here
 SDL_Window * window;
-const int Window_Width = 640; //constant to control window creation
-const int Window_Height = 480;
+const int WINDOW_WIDTH = 640; //constant to control window creation
+const int WINDOW_HEIGHT = 480;
 bool running = true;
 SDL_GLContext glcontext = NULL; ////SDL GL Context
 double fallSpeed = 5.00;
@@ -359,7 +359,7 @@ void setViewport(int width, int height)
 	GLfloat ratio;
 
 	//make sure height is always above 0
-	if (height == 0)
+	if (height <= 0)
 	{
 		height = 1;
 	}
@@ -507,11 +507,8 @@ void MoveTriangle() //the "animation"
 void update()
 {
 	projMatrix 	=	glm::perspective(45.0f,	(float)WINDOW_WIDTH	/(float)WINDOW_HEIGHT,0.1f,	100.0f);
-	viewMatrix	=	glm::lookAt(vec3(0.0f,	0.0f,	10.0f),
-		
-		vec3(0.0f,	0.0f,	0.0f),	vec3(0.0f,	1.0f,	0.0f));
-	
-	worldMatrix =  glm::translate(mat4(1.0f),vec3(0.0f, 0.0f, 0.0f));
+	viewMatrix	=	glm::lookAt(vec3(0.0f,	0.0f,	10.0f), vec3(0.0f,	0.0f,	0.0f),	vec3(0.0f,	1.0f,	0.0f));
+	worldMatrix =   glm::translate(mat4(1.0f),vec3(0.0f, 0.0f, 0.0f));
 }
 
 void initGeometry()
@@ -555,6 +552,10 @@ void initGeometry()
 //SHADERS !!!!
 void createShader()
 {
+
+	shaderProgram = glCreateProgram();
+
+
 	GLuint vertexShaderProgram = 0;
 	std::string	vsPath = ASSET_PATH + SHADER_PATH + "/simpleVS.glsl";
 	vertexShaderProgram = loadShaderFromFile(vsPath, VERTEX_SHADER);
@@ -565,11 +566,12 @@ void createShader()
 
 	glBindAttribLocation(shaderProgram,	0, "vertexPosition");
 
-	shaderProgram =	glCreateProgram();
-	glAttachShader(shaderProgram,	vertexShaderProgram);
+
+
+	glAttachShader(shaderProgram, vertexShaderProgram);
 	glAttachShader(shaderProgram, fragmentShaderProgram);
 	glLinkProgram(shaderProgram);
-	checkForLinkErrors(shaderProgram);
+	bool SErr = checkForLinkErrors(shaderProgram);
 	
 	//now we can delete	the	VS	&	FS	Programs
 	glDeleteShader(vertexShaderProgram);
@@ -591,13 +593,13 @@ int main(int argc, char * arg[]){
 	}
 
 	//initialise the app window
-	InitWindow(Window_Width, Window_Height, false);
+	InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, false);
 
 	//Call out InitOpenGL Function
 	initOpenGL();
 	initGeometry();
 	//Set out Viewport
-	setViewport(Window_Width, Window_Height);
+	setViewport(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 
 
@@ -626,11 +628,11 @@ int main(int argc, char * arg[]){
 			}
 
 			/*EXPERIMENTAL BEGGINS*/
-
+			/*
 			switch (event.type){
-				/* Look for a keypress */
+				// Look for a keypress 
 			case SDL_KEYDOWN:
-				/* Check the SDLKey values and move change the coords */
+				// Check the SDLKey values and move change the coords
 				switch (event.key.keysym.sym){
 				case SDLK_LEFT:
 					TR2[0][3] -= 0.1f;
@@ -654,7 +656,7 @@ int main(int argc, char * arg[]){
 				}
 			}
 
-
+*/
 			/*EXPERIMENTAL ENDS*/
 
 		} //event checking ends here

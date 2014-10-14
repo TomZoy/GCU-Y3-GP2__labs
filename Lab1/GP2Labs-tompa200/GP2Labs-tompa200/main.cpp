@@ -59,6 +59,7 @@ float TR2[3][6] = {
 };
 
 
+GLuint shaderProgram = 0;
 
 //VERSION 1 - Triangle
 /*
@@ -525,6 +526,18 @@ void createShader()
 	GLuint fragmentShaderProgram = 0;
 	std::string fsPath = ASSET_PATH + SHADER_PATH + "/simpleFS.glsl";
 	fragmentShaderProgram = loadShaderFromFile(fsPath, FRAGMENT_SHADER);
+
+	shaderProgram =	glCreateProgram();
+	glAttachShader(shaderProgram,	vertexShaderProgram);
+	glAttachShader(shaderProgram, fragmentShaderProgram);
+	glLinkProgram(shaderProgram);
+	checkForLinkErrors(shaderProgram);
+	
+	//now we can delete	the	VS	&	FS	Programs
+	glDeleteShader(vertexShaderProgram);
+	glDeleteShader(fragmentShaderProgram);
+
+
 }
 
 

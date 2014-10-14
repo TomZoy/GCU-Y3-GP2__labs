@@ -281,6 +281,7 @@ void InitWindow(int width, int height, bool fullscreen)
 //function to clean up resources after the code closes
 void CleanUp()
 {
+	glDeleteProgram(shaderProgram);
 	glDeleteBuffers(1, &triangleEBO);
 	glDeleteBuffers(1, &triangleVBO);  // This will delete the number of buffers specified(1st parameter), with the actual buffers being passed in as the 2nd parametr
 	SDL_GL_DeleteContext(glcontext);
@@ -571,7 +572,7 @@ int main(int argc, char * arg[]){
 	double tRotate = 0.0; //timer for the game loop for rotation
 
 
-
+	createShader();
 
 
 

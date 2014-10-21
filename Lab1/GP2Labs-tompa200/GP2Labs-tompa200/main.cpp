@@ -480,6 +480,10 @@ void render()
 
 	glUseProgram(shaderProgram);
 
+	GLint texture0Location = glGetUniformLocation(shaderProgram, "texture0");
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D,texture);
+	glUniform1i(texture0Location,0);
 
 	GLint  MVPLocation	=	glGetUniformLocation(shaderProgram,	"MVP");
 	mat4 MVP = projMatrix*viewMatrix*worldMatrix;

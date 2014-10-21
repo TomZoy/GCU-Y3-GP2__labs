@@ -67,5 +67,19 @@ GLuint  loadTextureFromFile(const  std::string&  filename)
 
 	glTexImage2D(GL_TEXTURE_2D, 0, textureFormat,imageSurface->w,imageSurface->h, 0,textureFormat,GL_UNSIGNED_BYTE,imageSurface->pixels);
 
+	/*
+	The  first  two  lines  setup  Linear  filtering  on  the  texture,  the  next  two  lines  set  the  
+	texture  addressing  mode to  CLAMP and  the  last  line  generates  Mipmaps  for  the  
+	texture (ref  Texturing  Lecture  in  Week)
+	*/
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+
 	return	textureID;
 }

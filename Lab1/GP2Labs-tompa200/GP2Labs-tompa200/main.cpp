@@ -8,6 +8,7 @@
 #include "Vertex.h" //"" for includes from the same directory
 #include "Shader.h"
 #include <SDL_Image.h>
+#include "Texture.h"
 
 #include <glm/glm.hpp>
 using glm::mat4;
@@ -16,7 +17,7 @@ using glm::vec4;
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-
+GLuint texture = 0;
 
 
 #ifdef _DEBUG && WIN32
@@ -619,7 +620,13 @@ void createShader()
 
 }
 
+void createTexture()
+{
+	std::string texturePath = ASSET_PATH + TEXTURE_PATH + "/texture.png";
+	texture = loadTextureFromFile(texturePath);
 
+
+}
 
 
 //Main Methood entry point

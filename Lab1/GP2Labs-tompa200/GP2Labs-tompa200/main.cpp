@@ -325,6 +325,7 @@ void InitWindow(int width, int height, bool fullscreen)
 //function to clean up resources after the code closes
 void CleanUp()
 {
+	glDeleteTextures(1,&texture);
 	glDeleteProgram(shaderProgram);
 	glDeleteBuffers(1, &triangleEBO);
 	glDeleteVertexArrays(1, &VAO);

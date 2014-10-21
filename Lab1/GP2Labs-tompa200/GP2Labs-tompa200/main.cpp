@@ -605,7 +605,8 @@ void createShader()
 	fragmentShaderProgram = loadShaderFromFile(fsPath, FRAGMENT_SHADER);
 
 	glBindAttribLocation(shaderProgram,	0, "vertexPosition");
-
+	glBindAttribLocation(shaderProgram, 1, "vertexTexCoords");
+	glBindAttribLocation(shaderProgram, 2, "vertexColour");
 
 
 	glAttachShader(shaderProgram, vertexShaderProgram);

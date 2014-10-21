@@ -7,6 +7,7 @@
 #include <time.h>
 #include "Vertex.h" //"" for includes from the same directory
 #include "Shader.h"
+#include <SDL_Image.h>
 
 #include <glm/glm.hpp>
 using glm::mat4;
@@ -598,6 +599,17 @@ int main(int argc, char * arg[]){
 		std::cout << "ERROR SDL_Init" << SDL_GetError() << std::endl;
 		return -1;
 	}
+
+	//init SDLImage for jpg and png support
+	int  imageInitFlags = IMG_INIT_JPG | IMG_INIT_PNG;
+	int  returnInitFlags = IMG_Init(imageInitFlags);
+	if (((returnInitFlags)&  (imageInitFlags)) != imageInitFlags)  
+	{
+		std::cout << "ERROR  SDL_Image  Init  " << IMG_GetError() << std::endl;
+		//  handle  error
+	}
+
+
 
 	//initialise the app window
 	InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, false);

@@ -597,11 +597,11 @@ void createShader()
 
 
 	GLuint vertexShaderProgram = 0;
-	std::string	vsPath = ASSET_PATH + SHADER_PATH + "/simpleVS.glsl";
+	std::string	vsPath = ASSET_PATH + SHADER_PATH + "/textureVS.glsl";
 	vertexShaderProgram = loadShaderFromFile(vsPath, VERTEX_SHADER);
 
 	GLuint fragmentShaderProgram = 0;
-	std::string fsPath = ASSET_PATH + SHADER_PATH + "/simpleFS.glsl";
+	std::string fsPath = ASSET_PATH + SHADER_PATH + "/textureFS.glsl";
 	fragmentShaderProgram = loadShaderFromFile(fsPath, FRAGMENT_SHADER);
 
 	glBindAttribLocation(shaderProgram,	0, "vertexPosition");

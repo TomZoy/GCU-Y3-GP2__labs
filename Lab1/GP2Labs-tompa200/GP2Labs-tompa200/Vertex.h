@@ -22,6 +22,9 @@ struct Vertex
 	//float x, y, z, r, g, b, a;
 
 	vec3 position;
+
+	vec2 texCoords;
+
 	// ???
 	//vec4 colours;
 	glm::vec4 colours;

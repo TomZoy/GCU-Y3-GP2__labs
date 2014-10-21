@@ -12,6 +12,7 @@
 #include <glm/glm.hpp>
 using glm::mat4;
 using glm::vec3;
+using glm::vec4;
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -41,6 +42,7 @@ GLuint triangleVBO;
 GLuint triangleEBO;
 GLuint VAO;
 
+/*
 ColorStruct Color[] = 
 {
 	{ 0.0f, 0.0f, 0.0f, 1.0f },
@@ -52,7 +54,7 @@ ColorStruct Color[] =
 	{ 1.0f, 1.0f, 0.0f, 1.0f },
 	{ 1.0f, 1.0f, 1.0f, 1.0f }
 };
-
+*/
 
 /* WHERE THE TRIANGLES ARE DEFINED*/
 
@@ -232,6 +234,9 @@ void overwrite()
 // Version 4 - CUBE
 
 Vertex triangleData[] = {
+
+
+	/*
 	//Front
 		{ -0.5f, 0.5f, 0.5f,
 		1.0f, 0.0f, 1.0f, 1.0f },// Top Left
@@ -251,6 +256,26 @@ Vertex triangleData[] = {
 		0.0f, 1.0f, 1.0f, 1.0f }, //Bottom Right
 		{ 0.5f, 0.5f, -0.5f,
 		1.0f, 0.0f, 1.0f, 1.0f },// Top Right
+
+*/
+
+	//front
+		
+			{ vec3(-0.5f, 0.5f, 0.5f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f) },
+			{ vec3(-0.5f, -0.5f, 0.5f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f) },
+			{ vec3(0.5f, -0.5f, 0.5f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f) },
+			{ vec3(0.5f, 0.5f, 0.5f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f) }
+		,
+		//back
+		
+			{ vec3(-0.5f, 0.5f, -0.5f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f) },
+			{ vec3(-0.5f, -0.5f, -0.5f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f) },
+			{ vec3(0.5f, -0.5f, -0.5f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f) },
+			{ vec3(0.5f, 0.5f, -0.5f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f) }
+		
+
+
+
 };
 
 /*note: these indices represent an index of a vertex in the VBO*/

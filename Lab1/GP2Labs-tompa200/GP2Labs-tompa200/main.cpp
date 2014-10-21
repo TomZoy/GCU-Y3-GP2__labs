@@ -489,7 +489,13 @@ void render()
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
 
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1,4,GL_FLOAT,GL_FALSE,sizeof(Vertex),(void**)sizeof(vec3));
 
+	/*
+		This is a bit easier to read as we are saying that element 1(colours) starts at  
+		sizeof vec3 away from the start of each vertex.
+	*/
 
 	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 	SDL_GL_SwapWindow(window);

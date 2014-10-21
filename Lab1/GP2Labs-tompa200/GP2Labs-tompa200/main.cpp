@@ -491,8 +491,10 @@ void render()
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
 
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1,4,GL_FLOAT,GL_FALSE,sizeof(Vertex),(void**)sizeof(vec3));
+	glVertexAttribPointer(1,2,GL_FLOAT,GL_FALSE,sizeof(Vertex),(void**)sizeof(vec3));
 
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)sizeof(vec3)+sizeof(vec2));
 	/*
 		This is a bit easier to read as we are saying that element 1(colours) starts at  
 		sizeof vec3 away from the start of each vertex.

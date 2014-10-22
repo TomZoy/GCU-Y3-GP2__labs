@@ -57,21 +57,22 @@ GLuint loadShaderFromFile(const std::string&filename,SHADER_TYPE shaderType)
 	//calculate file size
 		if	(file.good())
 		{
-		file.seekg(0, std::ios::end);
-		unsigned long len =	file.tellg();
-		file.seekg(std::ios::beg);
-		if
-			(len==0)
-		{
-			std::cout <<"File	has no	contents"	<<	std::endl;
-			return	0;
-		}
-		fileContents.resize(len);
-		file.read(&fileContents[0],	len);
-		file.close();
-		GLuint program	= loadShaderFromMemory(fileContents.c_str(),shaderType);
-		std::cout << "Shader IS read from file!" << std::endl;
-		return	program;
+			file.seekg(0, std::ios::end);
+			unsigned long len =	file.tellg();
+			file.seekg(std::ios::beg);
+
+			if (len==0)
+			{
+				std::cout <<"File	has no	contents"	<<	std::endl;
+				return	0;
+			}
+
+			fileContents.resize(len);
+			file.read(&fileContents[0],	len);
+			file.close();
+			GLuint program	= loadShaderFromMemory(fileContents.c_str(),shaderType);
+			std::cout << "Shader IS read from file!" << std::endl;
+			return	program;
 		}
 
 
@@ -80,14 +81,11 @@ GLuint loadShaderFromFile(const std::string&filename,SHADER_TYPE shaderType)
 
 bool checkForLinkErrors(GLuint program)
 {
-	GLint isLinked	=	0;
+	GLint isLinked = 0;
 	glGetProgramiv(program,	GL_LINK_STATUS,	&isLinked);
-	if
-		(isLinked == GL_FALSE)
+	if (isLinked == GL_FALSE)
 	{
-		GLint
-		
-		maxLength =	0;
+		GLint maxLength = 0;
 		glGetProgramiv(program,	GL_INFO_LOG_LENGTH,	&maxLength);
 		
 		//The maxLength	includes the NULL character
@@ -98,7 +96,7 @@ bool checkForLinkErrors(GLuint program)
 		//We don't need	the	shader	anymore.
 		glDeleteProgram(program);
 		
-			return true;
+		return true;
 	}
 	std::cout << "Shader IS linked!" << std::endl;
 	return	false;

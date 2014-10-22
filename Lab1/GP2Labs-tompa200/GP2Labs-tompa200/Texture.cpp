@@ -1,5 +1,6 @@
 ﻿#include  "Texture.h"
 
+int  internalFormat;
 
 
 GLuint  loadTextureFromFile(const  std::string&  filename)
@@ -20,24 +21,41 @@ GLuint  loadTextureFromFile(const  std::string&  filename)
 	red,  green,  blue  and  alpha  channels.  If  the  value  is  3  then  it  means  the  surface  only  contains  red,  green  and  blue  ch
 	*/
 
-	GLint nOfColors = imageSurface->format->BitsPerPixel;
+	GLint nOfColors = imageSurface->format->BytesPerPixel;
 	
-	GLenum textureFormat = GL_RGB;
+	GLenum texture_format = GL_RGB;
+	GLenum internalFormat = GL_RGB8;
+
+
 	if (nOfColors == 4)          //  contains  an  alpha  channel
 	{
-		if (
-			imageSurface->format->Rmask == 0x000000ff)
-				textureFormat = GL_RGBA;
+		if (imageSurface->format->Rmask == 0x000000ff)
+		{
+			texture_format = GL_RGBA;
+			internalFormat = GL_RGBA8;
+
+		}
 		else
-			textureFormat = GL_BGRA;
+		{
+			texture_format = GL_BGRA;
+			internalFormat = GL_RGBA8;
+
+		}
 	}
 
 	else  if (nOfColors == 3)          //  no alpha  channel
 	{
 		if (imageSurface->format->Rmask == 0x000000ff)
-			textureFormat = GL_RGB;
+		{
+			texture_format = GL_RGB;
+			internalFormat = GL_RGB8;
+		}
+
 		else
-			textureFormat = GL_BGR;
+		{
+			texture_format = GL_BGR;
+			internalFormat = GL_RGB8;
+		}
 	}
 	else  {
 		std::cout << "warning:  the  image  is  not  truecolor..    this  will  probably  break";
@@ -46,7 +64,9 @@ GLuint  loadTextureFromFile(const  std::string&  filename)
 
 	//This  will  generate  one  OpenGL  texture  and  then  bind  it  as  the  active texture
 	glGenTextures(1, &textureID);
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, textureID);
+
 
 
 	/*
@@ -65,7 +85,7 @@ GLuint  loadTextureFromFile(const  std::string&  filename)
 
 	*/
 
-	glTexImage2D(GL_TEXTURE_2D, 0, textureFormat,imageSurface->w,imageSurface->h, 0,textureFormat,GL_UNSIGNED_BYTE,imageSurface->pixels);
+	glTexImage2D(GL_TEXTURE_2D, 0, texture_format, imageSurface->w, imageSurface->h, 0, texture_format, GL_UNSIGNED_BYTE, imageSurface->pixels);
 
 	/*
 	The  first  two  lines  setup  Linear  filtering  on  the  texture,  the  next  two  lines  set  the  
@@ -75,11 +95,12 @@ GLuint  loadTextureFromFile(const  std::string&  filename)
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	
 	glGenerateMipmap(GL_TEXTURE_2D);
 
-
+	SDL_FreeSurface(imageSurface);
 	return	textureID;
 }

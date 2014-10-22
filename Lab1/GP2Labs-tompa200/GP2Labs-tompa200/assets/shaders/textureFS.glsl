@@ -1,11 +1,11 @@
-﻿#version 150
+#version 150
 out vec4 FragColor;
 in  vec2  vertexTexCoordsOut;
 uniform  sampler2D texture0;
 
 void main()
 {
-	// The above  line  using  the  built‐in  GLSL  function  called  texture,
+	// The above  line  using  the  built-in  GLSL  function  called  texture,
 	// this function like most GLSL functions are fairly generic and will do operations
 	// dependent  on  what  is  passed  in.  
 	// The above  code  shows  how  you  can  carry  out  a  texture  lookup  into  a  

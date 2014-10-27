@@ -139,5 +139,6 @@ GLuint convertSDLSurfaceToGLTexture(SDL_Surface*surface)
 
 	SDL_FreeSurface(surface);
 
-	return 0;
+	//return 0;
+	return textureID;
 }

@@ -330,6 +330,7 @@ void InitWindow(int width, int height, bool fullscreen)
 void CleanUp()
 {
 	glDeleteTextures(1, &texture);
+	glDeleteTextures(1, &fontTexture);
 	glDeleteProgram(shaderProgram);
 	glDeleteBuffers(1, &triangleVBO);  // This will delete the number of buffers specified(1st parameter), with the actual buffers being passed in as the 2nd parametr
 	glDeleteBuffers(1, &triangleEBO);
@@ -372,6 +373,10 @@ void initOpenGL()
 	glDepthFunc(GL_LEQUAL);
 	//set perspective correction to best
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+
+	//turn on alpha blending
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	//enable experimental for programmable pipeline
 	glewExperimental = GL_TRUE;
@@ -471,7 +476,7 @@ void DrawTriangle(float Tri[3][6])
 void render()
 {
 	//set the clear colour
-	glClearColor(0.4f, 0.4f, 0.4f, 0.0f);
+	glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
 
 	//clear the colour and depth-buffer	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -642,7 +647,7 @@ void createFontTexture()
 {
 
 	std::string texPath = ASSET_PATH + FONT_PATH + "/OratorStd.otf";
-	fontTexture = loadTextureFromFont(texPath,14,"TEST");
+	fontTexture = loadTextureFromFont(texPath,64,"TEST");
 }
 
 

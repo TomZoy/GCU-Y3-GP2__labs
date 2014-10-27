@@ -1,4 +1,5 @@
 ﻿#include  "Texture.h"
+#include <SDL_ttf.h>
 
 int  internalFormat;
 
@@ -103,4 +104,21 @@ GLuint  loadTextureFromFile(const  std::string&  filename)
 
 	SDL_FreeSurface(imageSurface);
 	return	textureID;
+}
+
+GLuint loadTextureFromFont(const std::string& fontFilename, int pointSize, const std::string& text)
+{
+	GLuint TextureID = 0;
+
+	TTF_Font*font = TTF_OpenFont(fontFilename.c_str(), pointSize);
+
+	if (!font)
+	{
+		std::cout << "Unable to load font " << fontFilename << TTF_GetError();
+		return TextureID;
+	}
+
+	SDL_Surface*textSurface = TTF_RenderText_Blended(font, text.c_str(), { 255, 255, 255 });
+
+	return TextureID;
 }

@@ -360,7 +360,7 @@ void initOpenGL()
 	//smooth shading
 	glShadeModel(GL_SMOOTH);
 	//clear the background to black
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClearColor(0.4f, 0.4f, 0.8f, 0.0f);
 	//clear the depht buffer to 1.0
 	glClearDepth(1.0f);
 	//enable depht testing
@@ -468,7 +468,7 @@ void DrawTriangle(float Tri[3][6])
 void render()
 {
 	//set the clear colour
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClearColor(0.4f, 0.4f, 0.4f, 0.0f);
 
 	//clear the colour and depth-buffer	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

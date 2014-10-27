@@ -476,6 +476,9 @@ void render()
 	//clear the colour and depth-buffer	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+
 	glBindVertexArray(VAO);
 
 	//Make the new VBO active. Repeat here as sanity check (may have changed since inisialisation)
@@ -488,7 +491,14 @@ void render()
 
 	GLint texture0Location = glGetUniformLocation(shaderProgram, "texture0");
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D,texture);
+	
+	//normal texture
+	//glBindTexture(GL_TEXTURE_2D,texture);
+
+	//text texture
+	glBindTexture(GL_TEXTURE_2D,fontTexture);
+
+
 	glUniform1i(texture0Location,0);
 
 	GLint  MVPLocation	=	glGetUniformLocation(shaderProgram,	"MVP");

@@ -19,6 +19,7 @@ using glm::vec4;
 #include <glm/gtc/type_ptr.hpp>
 
 GLuint texture = 0;
+GLuint fontTexture = 0;
 
 
 #ifdef _DEBUG && WIN32
@@ -626,6 +627,15 @@ void createShader()
 
 
 }
+
+void createFontTexture()
+{
+
+	std::string texPath = ASSET_PATH + FONT_PATH + "/OratorStd.otf";
+	fontTexture = loadTextureFromFont(texPath,14,"TEST");
+}
+
+
 
 void createTexture()
 {

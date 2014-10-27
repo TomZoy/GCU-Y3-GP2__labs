@@ -9,6 +9,7 @@
 #include "Shader.h"
 #include <SDL_Image.h>
 #include "Texture.h"
+#include <SDL_ttf.h>
 
 #include <glm/glm.hpp>
 using glm::mat4;
@@ -630,8 +631,6 @@ void createTexture()
 	//std::string texturePath = ASSET_PATH + TEXTURE_PATH + "/texture.png";
 	std::string texturePath = ASSET_PATH + TEXTURE_PATH + "/texture.png";
 	texture = loadTextureFromFile(texturePath);
-
-
 }
 
 
@@ -642,6 +641,12 @@ int main(int argc, char * arg[]){
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0){
 		std::cout << "ERROR SDL_Init" << SDL_GetError() << std::endl;
 		return -1;
+	}
+
+	//init sdl fonts
+	if (TTF_Init() == -1)
+	{
+		std::cout << "ERROR TTF_INIT: " << TTF_GetError();
 	}
 
 	//init SDLImage for jpg and png support

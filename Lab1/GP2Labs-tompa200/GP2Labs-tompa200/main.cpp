@@ -28,6 +28,7 @@ const std::string ASSET_PATH = "assets";
 #endif
 const std::string SHADER_PATH = "/shaders";
 const std::string TEXTURE_PATH = "/textures";
+const std::string FONT_PATH = "/fonts";
 
 
 

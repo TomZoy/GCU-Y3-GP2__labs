@@ -26,8 +26,8 @@ public:
 	void update();
 
 	void setPosition(vec3 position);
-	void setLookAt(vec3 position);
-	void setUp(vec3 position);
+	void setLookAt(vec3 lokkat);
+	void setUp(vec3 up);
 
 	void setFOV(float fov);
 	void setNearClip(float nearclip);
@@ -48,7 +48,7 @@ private:
 	
 	float m_FOV;
 	float m_NearClip;
-	float AspectRatio;
+	float m_AspectRatio;
 	float m_FarClip;
 
 	mat4 m_ViewMatrix;

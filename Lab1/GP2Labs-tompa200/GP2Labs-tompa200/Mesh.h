@@ -1,5 +1,5 @@
-#ifndef TRANSFORM_H
-#define TRANSFORM_H
+#ifndef MESH_H
+#define MESH_H
 
 #include  <string>
 #include "Component.h"
@@ -25,8 +25,8 @@ public:
 
 	virtual void init();  //as 1.2
 	virtual void destroy(); //as 1.3
-	virtual void copyVertexData(int count,int stride, void** data);
-	virtual void copyIndexData(int count, int stride, void** data);
+	void copyVertexData(int count,int stride, void** data);
+	void copyIndexData(int count, int stride, void** data);
 
 	void bind();
 

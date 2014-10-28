@@ -36,7 +36,7 @@ GLuint getVertexCount();
 
 
 
-void Component::init()
+void Mesh::init()
 {
 	glGenVertexArrays(1, &m_VAO);
 	glBindVertexArray(m_VAO);
@@ -75,7 +75,7 @@ void Component::init()
 }
 
 
-void destroy()
+void Mesh::destroy()
 {
 	glDeleteBuffers(1, &m_VBO);  // This will delete the number of buffers specified(1st parameter), with the actual buffers being passed in as the 2nd parametr
 	glDeleteBuffers(1, &m_EBO);

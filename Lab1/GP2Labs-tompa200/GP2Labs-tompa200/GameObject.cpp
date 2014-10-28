@@ -1,7 +1,15 @@
 #include "GameObject.h"
+#include  <string>
+
+using namespace std;  //to avoid putting std:: in front of every bloody thing ....
+
+
+
 
 GameObject::GameObject()
 {
+	std::string m_Name;
+	vector<Component*>m_Components;
 
 };
 
@@ -37,13 +45,31 @@ void GameObject::render()
 };
 
 void GameObject::destroy()
-{};
+{
+	auto iter = m_Components.begin();
+	while (iter != m_Components.end())
+	{
+		(*iter)->destroy();
+		if ((*iter))
+		{
+			delete (*iter);
+			(*iter) = NULL;
+			iter = m_Components.erase(iter);
+		}
+	}
+};
 
-const std::string& getName()
-{};
+const std::string& GameObject::getName()
+{
+	return m_Name;
+};
 
-void setName(const std::string& name)
-{};
+void GameObject::setName(const std::string& name)
+{
+	m_Name = name;
+};
 
-void addCompnent(Component*component) // NOT SURE ABOUT THIS ....
-{};
+void GameObject::addCompnent(Component*component) // NOT SURE ABOUT THIS ....
+{
+	m_Components.push_back(component);
+};

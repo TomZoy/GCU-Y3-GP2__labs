@@ -28,7 +28,7 @@ protected:
 
 private:
 
-	std::string m_Name;
+	string m_Name;
 	vector<Component*>m_Components;
 
 };

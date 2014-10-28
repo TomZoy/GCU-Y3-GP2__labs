@@ -41,6 +41,7 @@ void Transform::update()
 };
 
 
+
 vec3 getPosition()
 {
 	return m_Position;

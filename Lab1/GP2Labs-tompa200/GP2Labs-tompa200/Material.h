@@ -23,13 +23,13 @@ public:
 	Material();
 	virtual ~Material();
 
-	virtual void destroy(); //as 1.3
+	 void destroy(); //as 1.3
 
-	virtual bool loadShader(const string& vertexFilename, const string& fragmentFilename);
+	 bool loadShader(const string& vertexFilename, const string& fragmentFilename);
 
-	virtual void bind();
+	 void bind();
 
-	virtual GLint getUniformLocation(const string& name);
+	 GLint getUniformLocation(const string& name);
 
 
 
@@ -37,7 +37,7 @@ public:
 protected:
 
 private:
-
+	GLuint m_ShaderProgram;
 };
 
 #endif

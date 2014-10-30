@@ -1,9 +1,21 @@
 #include "GameObject.h"
 #include  <string>
 
+#include "Mesh.h";
+#include "Material.h";
+#include "Camera.h";
+#include "Transform.h";
+
 using namespace std;  //to avoid putting std:: in front of every bloody thing ....
 
+string m_Name;
+vector<Component*>m_Components;
 
+//declare pointers to a classes
+Mesh *mesh = NULL;
+Material *material = NULL;
+Camera *camera = NULL;
+Transform *transform = NULL;
 
 
 GameObject::GameObject()
@@ -73,3 +85,17 @@ void GameObject::addCompnent(Component*component) // NOT SURE ABOUT THIS ....
 {
 	m_Components.push_back(component);
 };
+
+
+
+
+void GameObject::setTransform(Transform *t)
+{
+	// m_Transform = t;  NOT WORKING - WHAT'S m_Transform ???
+	addCompnent(t);
+}
+
+Transform *GameObject::getTransform()
+{
+	return m_Transform;  // DONT REALLY SEE WHERE THIS SHOULD COMMING FROM ...
+}

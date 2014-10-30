@@ -1,5 +1,8 @@
 #include "Component.h"
 #include  <string>
+#include "GameObject.h"
+
+GameObject *m_Parent; // pointer to the GameObject
 
 Component::Component()
 {
@@ -35,7 +38,16 @@ bool Component::isActive()
 
 
 Component::~Component()
-
 {
 
 }
+
+GameObject *getParent()
+{
+	return m_Parent;
+};
+
+void setParent(GameObject *parent)
+{
+	m_Parent = parent;
+};

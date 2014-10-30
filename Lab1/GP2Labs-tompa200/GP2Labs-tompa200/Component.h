@@ -3,6 +3,8 @@
 
 #include  <string>
 
+class GameObject;  //forward declaration
+
 class Component
 {
 public:
@@ -19,9 +21,14 @@ public:
 	void toggleActive();
 	bool isActive();
 
+	void setParent(GameObject *parent);
+	GameObject *getParen();
+
 protected:
 	std::string m_Type;
 	bool m_Active;
+
+	GameObject *m_Parent; // pointer to the GameObject
 
 private:
 };

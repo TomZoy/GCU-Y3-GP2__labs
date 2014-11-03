@@ -22,7 +22,7 @@ public:
 	bool isActive();
 
 	void setParent(GameObject *parent);
-	GameObject *getParen();
+	GameObject *getParent();
 
 protected:
 	std::string m_Type;

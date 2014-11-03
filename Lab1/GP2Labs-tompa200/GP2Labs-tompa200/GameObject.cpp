@@ -1,10 +1,10 @@
 #include "GameObject.h"
 #include  <string>
 
-#include "Mesh.h";
-#include "Material.h";
-#include "Camera.h";
-#include "Transform.h";
+#include "Mesh.h"
+#include "Material.h"
+#include "Camera.h"
+#include "Transform.h"
 
 using namespace std;  //to avoid putting std:: in front of every bloody thing ....
 
@@ -99,3 +99,4 @@ Transform *GameObject::getTransform()
 {
 	return m_Transform;  // DONT REALLY SEE WHERE THIS SHOULD COMMING FROM ...
 }
+

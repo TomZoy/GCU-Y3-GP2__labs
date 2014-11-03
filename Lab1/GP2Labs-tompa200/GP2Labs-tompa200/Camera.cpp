@@ -1,5 +1,9 @@
 #include "Camera.h"
 
+#include "GameObject.h"
+#include "Transform.h"
+#include "Component.h"
+
 #include  <string>
 
 using namespace std;  //to avoid putting std:: in front of every bloody thing ....
@@ -48,6 +52,9 @@ Camera::~Camera()
 
 void update()
 {
+	m_Position = m_Parent->getTransform()->getPosition();
+	// m_Position = Component::getParent ??? instead?
+
 	m_ProjectionMatrix = glm::perspective(45.0f, (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 100.0f);
 	m_ViewMatrix = glm::lookAt(vec3(0.0f, 0.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
 	worldMatrix = glm::translate(mat4(1.0f), vec3(0.0f, 0.0f, 0.0f));

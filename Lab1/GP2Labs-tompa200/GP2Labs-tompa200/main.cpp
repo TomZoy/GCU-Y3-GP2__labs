@@ -351,7 +351,8 @@ void initialise()
 	mainCamera = new GameObject();
 
 	Transform *t = new Transform();
-	t->setPosition = (0.0f,0.0f,2.0f);
+	vec3 p =(0.0f, 0.0f, 2.0f);
+	t->setPosition(p);
 	mainCamera->setTransform(t);
 
 	Camera *c = new Camera();
@@ -752,6 +753,34 @@ void createTexture()
 	std::string texturePath = ASSET_PATH + TEXTURE_PATH + "/texture.png";
 	texture = loadTextureFromFile(texturePath);
 }
+
+
+
+void createCube()
+{
+	GameObject *cube = new GameObject();
+	cube->setName("Cube");
+
+	Transform *transform = new Transform();
+	transform->setPosition(0.0f,0.0f,2.0f);
+	cube->setTransform(transform);
+
+	Material *material = new Material();
+	string vsPath = ASSET_PATH + SHADER_PATH + "/vertexColourVS.glsl";
+	string fsPath = ASSET_PATH + SHADER_PATH + "/vertexColourFS.glsl";
+	material->loadShader(vsPath,fsPath);
+	cube->setMaterial(material);
+
+	Mesh *mesh = new Mesh();
+	cube->setMesh(mesh);
+
+	displayList.push_back(cube);
+
+	mesh->copyVertexData(8, sizeof(Vertex), (void**)triangleData);
+	mesh->copyIndexData(36,sizeof(int),(void**)indices);
+}
+
+
 
 
 //Main Methood entry point

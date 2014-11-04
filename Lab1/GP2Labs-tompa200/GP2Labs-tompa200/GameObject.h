@@ -2,7 +2,6 @@
 #define GAMEOBJECT_H
 
 #include  <string>
-#include "Component.h"
 #include <vector>
 
 using namespace std;  //to avoid putting std:: in front of every bloody thing ....
@@ -11,6 +10,7 @@ class Mesh;
 class Material;
 class Camera;
 class Transform;
+class Component;
 
 /*The  above  snippet  is  an  example  of  'forward  declaration'  of  the  class,  this  allows  
 us  to  referen
@@ -20,7 +20,7 @@ class GameObject
 {
 public:
 	GameObject();
-	virtual ~GameObject();
+	~GameObject();
 
 	 void init();
 	 void update();
@@ -46,14 +46,13 @@ protected:
 
 private:
 
-	string m_Name;
-	vector<Component*>m_Components;
-	
-	//declare pointers to a classes
-	Mesh *mesh;
-	Material *material;
-	Camera *camera;
-	Transform *transform;
+	std::vector<Component*> m_Components;
+	std::string m_Name;
+
+	Transform *m_Transform;
+	Mesh *m_Mesh;
+	Material *m_Material;
+	Camera *m_Camera;
 
 
 };

@@ -1,47 +1,46 @@
-#ifndef TRANSFORM_H
-#define TRANSFORM_H
+//
+//  Transform.h
+//  GP2BaseCode
+//
+//  Created by Brian on 31/10/2014.
+//  Copyright (c) 2014 Glasgow Caledonian University. All rights reserved.
+//
 
-#include  <string>
-#include "Component.h"
-#include <vector>
+#ifndef Transform_h
+#define Transform_h
+
 #include <glm/glm.hpp>
 using glm::mat4;
 using glm::vec3;
-using glm::vec4;
+
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-using namespace std;  //to avoid putting std:: in front of every bloody thing ....
+#include "Component.h"
 
-
-
-
-class Transform : public Component // !!!OWN SOLUTION!!! to derive from component, so functions can be accessed :P OWN SOLUTION
+class Transform :public Component
 {
 public:
 	Transform();
-	virtual ~Transform();
+	~Transform();
 
-	virtual void update();  //as 1.2
+	void update();
 
-	vec3 getPosition();
-	vec3 getScale();
-	vec3 getRotation();
+	void setPosition(float x, float y, float z);
+	void setRotation(float x, float y, float z);
+	void setScale(float x, float y, float z);
 
-	void setPosition(vec3 position);
-	void setScale(vec3 scale);
-	void setRotation(vec3 rotation);
-
-	mat4 getModel();
-
-protected:
-
+	vec3& getPosition();
+	vec3& getScale();
+	vec3& getRotation();
+	mat4& getModel();
 private:
 	vec3 m_Position;
 	vec3 m_Scale;
 	vec3 m_Rotation;
 	mat4 m_Model;
-
+protected:
 };
+
 
 #endif

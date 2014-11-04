@@ -34,13 +34,14 @@ vector<GameObject*> displayList;
 
 #ifdef _DEBUG && WIN32
 const std::string ASSET_PATH = "assets";
+const std::string SHADER_PATH = "/shaders";
+const std::string TEXTURE_PATH = "/textures";
+const std::string FONT_PATH = "/fonts";
 #else
 const std::string ASSET_PATH = "assets";
 #endif
 
-const std::string SHADER_PATH = "/shaders";
-const std::string TEXTURE_PATH = "/textures";
-const std::string FONT_PATH = "/fonts";
+
 
 
 
@@ -319,7 +320,29 @@ GLuint indices[] = {
 };
 
 
+void createCube()
+{
+	GameObject *cube = new GameObject();
+	cube->setName("Cube");
 
+	Transform *transform = new Transform();
+	transform->setPosition(0.0f, 0.0f, 2.0f);
+	cube->setTransform(transform);
+
+	Material *material = new Material();
+	string vsPath = ASSET_PATH + SHADER_PATH + "/vertexColourVS.glsl";
+	string fsPath = ASSET_PATH + SHADER_PATH + "/vertexColourFS.glsl";
+	material->loadShader(vsPath, fsPath);
+	cube->setMaterial(material);
+
+	Mesh *mesh = new Mesh();
+	cube->setMesh(mesh);
+
+	displayList.push_back(cube);
+
+	mesh->copyVertexData(8, sizeof(Vertex), (void**)triangleData);
+	mesh->copyIndexData(36, sizeof(int), (void**)indices);
+}
 
 
 
@@ -339,27 +362,93 @@ void InitWindow(int width, int height, bool fullscreen)
 
 }
 
+
+
+//SHADERS !!!!
+void createShader()
+{
+
+	shaderProgram = glCreateProgram();
+
+
+	GLuint vertexShaderProgram = 0;
+	std::string	vsPath = ASSET_PATH + SHADER_PATH + "/textureVS.glsl";
+	vertexShaderProgram = loadShaderFromFile(vsPath, VERTEX_SHADER);
+
+	GLuint fragmentShaderProgram = 0;
+	std::string fsPath = ASSET_PATH + SHADER_PATH + "/textureFS.glsl";
+	fragmentShaderProgram = loadShaderFromFile(fsPath, FRAGMENT_SHADER);
+
+	glBindAttribLocation(shaderProgram, 0, "vertexPosition");
+	glBindAttribLocation(shaderProgram, 1, "vertexTexCoords");
+	glBindAttribLocation(shaderProgram, 2, "vertexColour");
+
+
+	glAttachShader(shaderProgram, vertexShaderProgram);
+	glAttachShader(shaderProgram, fragmentShaderProgram);
+	glLinkProgram(shaderProgram);
+	bool SErr = checkForLinkErrors(shaderProgram);
+
+	//now we can delete	the	VS	&	FS	Programs
+	glDeleteShader(vertexShaderProgram);
+	glDeleteShader(fragmentShaderProgram);
+
+
+}
+
+void createFontTexture()
+{
+
+	std::string texPath = ASSET_PATH + FONT_PATH + "/OratorStd.otf";
+	fontTexture = loadTextureFromFont(texPath, 64, "TEST");
+}
+
+
+
+void createTexture()
+{
+	//std::string texturePath = ASSET_PATH + TEXTURE_PATH + "/texture.png";
+	std::string texturePath = ASSET_PATH + TEXTURE_PATH + "/texture.png";
+	texture = loadTextureFromFile(texturePath);
+}
+
+
+
+
+
+
+
 //function to initialise all components
 
 void initialise()
 {
-
 	createShader();
+
 	createTexture();
 
 //seting up default camera
 	mainCamera = new GameObject();
+	mainCamera->setName("MainCamera");
 
 	Transform *t = new Transform();
-	vec3 p =(0.0f, 0.0f, 2.0f);
-	t->setPosition(p);
+	t->setPosition(0.0f, 0.0f, 2.0f);
 	mainCamera->setTransform(t);
 
 	Camera *c = new Camera();
-	//  ??? ... set everything ????  ...
-	mainCamera->setCamera(c);
+	c->setAspectRatio((float)(WINDOW_WIDTH / WINDOW_HEIGHT));
+	c->setFOV(45.0f);
+	c->setNearClip(0.1f);
+	c->setFarClip(1000.0f);
 
+
+
+	mainCamera->setCamera(c);
 	displayList.push_back(mainCamera);
+
+
+//add cube
+	createCube();
+
 
 	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
 	{
@@ -598,7 +687,7 @@ void render()
 			//will sort out once we have a camera
 
 			Camera *cam = mainCamera->getCamera();
-			mat4 MVP = cam->getProjectionMatrix()*cam->getViewMatrix()*currentTransform->getModel();
+			mat4 MVP = cam->getProjection()*cam->getView()*currentTransform->getModel();
 			glUniformMatrix4fv(MVPLocation,1,GL_FALSE,glm::value_ptr(MVP));
 
 			glDrawElements(GL_TRIANGLES,currentMesh->getIndexCount(),GL_UNSIGNED_INT,0);
@@ -706,79 +795,8 @@ void initGeometry()
 }
 
 
-//SHADERS !!!!
-void createShader()
-{
-
-	shaderProgram = glCreateProgram();
 
 
-	GLuint vertexShaderProgram = 0;
-	std::string	vsPath = ASSET_PATH + SHADER_PATH + "/textureVS.glsl";
-	vertexShaderProgram = loadShaderFromFile(vsPath, VERTEX_SHADER);
-
-	GLuint fragmentShaderProgram = 0;
-	std::string fsPath = ASSET_PATH + SHADER_PATH + "/textureFS.glsl";
-	fragmentShaderProgram = loadShaderFromFile(fsPath, FRAGMENT_SHADER);
-
-	glBindAttribLocation(shaderProgram,	0, "vertexPosition");
-	glBindAttribLocation(shaderProgram, 1, "vertexTexCoords");
-	glBindAttribLocation(shaderProgram, 2, "vertexColour");
-
-
-	glAttachShader(shaderProgram, vertexShaderProgram);
-	glAttachShader(shaderProgram, fragmentShaderProgram);
-	glLinkProgram(shaderProgram);
-	bool SErr = checkForLinkErrors(shaderProgram);
-	
-	//now we can delete	the	VS	&	FS	Programs
-	glDeleteShader(vertexShaderProgram);
-	glDeleteShader(fragmentShaderProgram);
-
-
-}
-
-void createFontTexture()
-{
-
-	std::string texPath = ASSET_PATH + FONT_PATH + "/OratorStd.otf";
-	fontTexture = loadTextureFromFont(texPath,64,"TEST");
-}
-
-
-
-void createTexture()
-{
-	//std::string texturePath = ASSET_PATH + TEXTURE_PATH + "/texture.png";
-	std::string texturePath = ASSET_PATH + TEXTURE_PATH + "/texture.png";
-	texture = loadTextureFromFile(texturePath);
-}
-
-
-
-void createCube()
-{
-	GameObject *cube = new GameObject();
-	cube->setName("Cube");
-
-	Transform *transform = new Transform();
-	transform->setPosition(0.0f,0.0f,2.0f);
-	cube->setTransform(transform);
-
-	Material *material = new Material();
-	string vsPath = ASSET_PATH + SHADER_PATH + "/vertexColourVS.glsl";
-	string fsPath = ASSET_PATH + SHADER_PATH + "/vertexColourFS.glsl";
-	material->loadShader(vsPath,fsPath);
-	cube->setMaterial(material);
-
-	Mesh *mesh = new Mesh();
-	cube->setMesh(mesh);
-
-	displayList.push_back(cube);
-
-	mesh->copyVertexData(8, sizeof(Vertex), (void**)triangleData);
-	mesh->copyIndexData(36,sizeof(int),(void**)indices);
-}
 
 
 

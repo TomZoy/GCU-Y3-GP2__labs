@@ -62,6 +62,8 @@ bool loadShader(const string& vertexFilename, const string& fragmentFilename)
 	glDeleteShader(vertexShaderProgram);
 	glDeleteShader(fragmentShaderProgram);
 
+	return true;
+
 };
 
 void Material::bind()
@@ -69,8 +71,8 @@ void Material::bind()
 	glUseProgram(m_ShaderProgram);
 };
 
-GLint getUniformLocation(const string& name)
+GLint Material::getUniformLocation(const string& name)
 {
 	// original: 	GLint  MVPLocation	=	glGetUniformLocation(shaderProgram,	"MVP");
-	return glGetUniformLocation(m_ShaderProgram, name); 
+	return glGetUniformLocation(m_ShaderProgram, name.c_str()); 
 };

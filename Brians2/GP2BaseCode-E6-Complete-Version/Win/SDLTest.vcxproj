@@ -10,10 +10,42 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\Camera.cpp" />
+    <ClCompile Include="..\src\Component.cpp" />
+    <ClCompile Include="..\src\GameObject.cpp" />
+    <ClCompile Include="..\src\main.cpp" />
+    <ClCompile Include="..\src\Material.cpp" />
+    <ClCompile Include="..\src\Mesh.cpp" />
+    <ClCompile Include="..\src\Shader.cpp" />
+    <ClCompile Include="..\src\Texture.cpp" />
+    <ClCompile Include="..\src\Transform.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\headers\Camera.h" />
+    <ClInclude Include="..\headers\Component.h" />
+    <ClInclude Include="..\headers\GameObject.h" />
+    <ClInclude Include="..\headers\Material.h" />
+    <ClInclude Include="..\headers\Mesh.h" />
+    <ClInclude Include="..\headers\Shader.h" />
+    <ClInclude Include="..\headers\Texture.h" />
+    <ClInclude Include="..\headers\Transform.h" />
+    <ClInclude Include="..\headers\Vertex.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\assets\shaders\simpleFS.glsl" />
+    <None Include="..\assets\shaders\simpleVS.glsl" />
+    <None Include="..\assets\shaders\textureFS.glsl" />
+    <None Include="..\assets\shaders\textureVS.glsl" />
+    <None Include="..\assets\shaders\vertexColourFS.glsl" />
+    <None Include="..\assets\shaders\vertexColourTextureFS.glsl" />
+    <None Include="..\assets\shaders\vertexColourTextureVS.glsl" />
+    <None Include="..\assets\shaders\vertexColourVS.glsl" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{AB3FFE36-44E0-48BB-A4EE-583967A4B1DC}</ProjectGuid>
+    <ProjectGuid>{68F0627D-C58E-4BAD-B10A-401ECB51D69F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>GP2Labstompa200</RootNamespace>
+    <RootNamespace>SDLTest</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -52,13 +84,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>c:\specialised applications\SDL2_ttf-2.0.12\include;D:\gitHub\GP2Labs-ztompa200\develop\SDL2_ttf-2.0.12\include;c:\Specialised Applications\SDL2_image-2.0.0\include;D:\gitHub\GP2Labs-ztompa200\develop\SDL2_image-2.0.0\include;d:\gitHub\GP2Labs-ztompa200\develop\glm-0.9.5.4\glm;C:\Specialised Applications\glm\glm;D:\gitHub\GP2Labs-ztompa200\develop\glew-1.11.0\include;C:\Specialised Applications\SDL2\include;C:\Specialised Applications\glew-1.11.0\include;D:\gitHub\GP2Labs-ztompa200\develop\SDL2-2.0.3\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\SDL2_ttf-2.0.12\include;C:\SDL2_image-2.0.0\include;C:\Users\bmd1\Documents\GitHub\GP2BaseCode\headers;Z:\GitHub\GP2BaseCode\headers;C:\glm;C:\glew-1.10.0\include;C:\SDL2-2.0.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>c:\specialised applications\SDL2_ttf-2.0.12\lib\x86;d:\gitHub\GP2Labs-ztompa200\develop\SDL2_ttf-2.0.12\lib\x86;c:\specialised applications\SDL2_image-2.0.0\lib\x86;D:\gitHub\GP2Labs-ztompa200\develop\SDL2_image-2.0.0\lib\x86;D:\gitHub\GP2Labs-ztompa200\develop\glew-1.11.0\lib\Release\Win32;C:\Specialised Applications\glew-1.11.0\lib\Release\Win32;C:\Specialised Applications\SDL2\lib\x86;D:\gitHub\GP2Labs-ztompa200\develop\SDL2-2.0.3\lib\x86</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2_ttf.lib;SDL2_image.lib;SDL2main.lib;opengl32.lib;glu32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\SDL2_ttf-2.0.12\lib\x86;C:\SDL2_image-2.0.0\lib\x86;C:\SDL2-2.0.3\lib\x86;C:\glew-1.10.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2_ttf.lib;SDL2_image.lib;sdl2.lib;sdl2main.lib;glew32.lib;opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -78,34 +111,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Component.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Material.cpp" />
-    <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="Transform.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Component.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="Material.h" />
-    <ClInclude Include="Mesh.h" />
-    <ClInclude Include="Transform.h" />
-    <ClInclude Include="Shader.h" />
-    <ClInclude Include="Texture.h" />
-    <ClInclude Include="Vertex.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="assets\shaders\simpleFS.glsl" />
-    <None Include="assets\shaders\simpleVS.glsl" />
-    <None Include="assets\shaders\textureFS.glsl" />
-    <None Include="assets\shaders\textureVS.glsl" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

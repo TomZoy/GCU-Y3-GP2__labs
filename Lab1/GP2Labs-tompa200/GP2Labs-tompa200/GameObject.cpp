@@ -5,6 +5,7 @@
 #include "Material.h"
 #include "Camera.h"
 #include "Transform.h"
+#include "Component.h"
 
 using namespace std;  //to avoid putting std:: in front of every bloody thing ....
 
@@ -23,7 +24,11 @@ GameObject::GameObject()
 	std::string m_Name;
 	vector<Component*>m_Components;
 
+	m_Transform = NULL;
+
 };
+
+
 
 
 GameObject::~GameObject()
@@ -91,7 +96,7 @@ void GameObject::addCompnent(Component*component) // NOT SURE ABOUT THIS ....
 
 void GameObject::setTransform(Transform *t)
 {
-	// m_Transform = t;  NOT WORKING - WHAT'S m_Transform ???
+	m_Transform = t;  //NOT WORKING - WHAT'S m_Transform ???
 	addCompnent(t);
 }
 

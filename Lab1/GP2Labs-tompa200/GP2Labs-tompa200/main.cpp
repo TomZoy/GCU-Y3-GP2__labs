@@ -58,6 +58,8 @@ GLuint triangleVBO;
 GLuint triangleEBO;
 GLuint VAO;
 
+GameObject *mainCamera;
+
 /*
 ColorStruct Color[] = 
 {
@@ -345,6 +347,18 @@ void initialise()
 	createShader();
 	createTexture();
 
+//seting up default camera
+	mainCamera = new GameObject();
+
+	Transform *t = new Transform();
+	t->setPosition = (0.0f,0.0f,2.0f);
+	mainCamera->setTransform(t);
+
+	Camera *c = new Camera();
+	//  ??? ... set everything ????  ...
+	mainCamera->setCamera(c);
+
+	displayList.push_back(mainCamera);
 
 	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
 	{
@@ -582,7 +596,8 @@ void render()
 			GLint MVPLocation = currentMaterial->getUniformLocation("MVP");
 			//will sort out once we have a camera
 
-			mat4 MVP = mat4();
+			Camera *cam = mainCamera->getCamera();
+			mat4 MVP = cam->getProjectionMatrix()*cam->getViewMatrix()*currentTransform->getModel();
 			glUniformMatrix4fv(MVPLocation,1,GL_FALSE,glm::value_ptr(MVP));
 
 			glDrawElements(GL_TRIANGLES,currentMesh->getIndexCount(),GL_UNSIGNED_INT,0);

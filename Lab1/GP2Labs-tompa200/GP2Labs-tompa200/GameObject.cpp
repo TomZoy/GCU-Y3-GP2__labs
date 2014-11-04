@@ -9,22 +9,21 @@
 
 using namespace std;  //to avoid putting std:: in front of every bloody thing ....
 
-string m_Name;
-vector<Component*>m_Components;
 
-//declare pointers to a classes
-Mesh *mesh = NULL;
-Material *material = NULL;
-Camera *camera = NULL;
-Transform *transform = NULL;
 
 
 GameObject::GameObject()
 {
-	std::string m_Name;
-	vector<Component*>m_Components;
+	m_Name = "GameObject";
+
 
 	m_Transform = NULL;
+
+
+	m_Mesh = NULL;
+	m_Material = NULL;
+	m_Camera = NULL;
+
 
 };
 
@@ -105,3 +104,38 @@ Transform *GameObject::getTransform()
 	return m_Transform;  // DONT REALLY SEE WHERE THIS SHOULD COMMING FROM ...
 }
 
+void GameObject::setMesh(Mesh *mesh)
+{
+	m_Mesh = mesh;
+	addCompnent(mesh);
+}
+
+void GameObject::setMaterial(Material *material)
+{
+	m_Material = material;
+	addCompnent(material);
+}
+
+void GameObject::setCamera(Camera *camera)
+{
+	m_Camera = camera;
+	addCompnent(camera);
+}
+
+
+Mesh * GameObject::getMesh()
+{
+	return m_Mesh;
+}
+
+
+Material *  GameObject::getMaterial()
+{
+	return m_Material;
+}
+
+
+Camera * GameObject::getCamera()
+{
+	return m_Camera;
+}

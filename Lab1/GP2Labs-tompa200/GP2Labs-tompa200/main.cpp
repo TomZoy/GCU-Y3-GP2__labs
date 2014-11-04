@@ -569,6 +569,24 @@ void render()
 	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
 	{
 		(*iter)->render();
+
+		Mesh *currentMesh = (*iter)->getMesh();
+		Transform *currentTransform = (*iter)->getTransform();
+		Material *currentMaterial = (*iter)->getMaterial();
+
+		if (currentMesh && currentMaterial && currentTransform)
+		{
+			currentMesh->bind();
+			currentMaterial->bind();
+
+			GLint MVPLocation = currentMaterial->getUniformLocation("MVP");
+			//will sort out once we have a camera
+
+			mat4 MVP = mat4();
+			glUniformMatrix4fv(MVPLocation,1,GL_FALSE,glm::value_ptr(MVP));
+
+			glDrawElements(GL_TRIANGLES,currentMesh->getIndexCount(),GL_UNSIGNED_INT,0);
+		}
 	}
 
 

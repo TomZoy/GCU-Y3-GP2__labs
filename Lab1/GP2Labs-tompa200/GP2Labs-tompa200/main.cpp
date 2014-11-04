@@ -32,7 +32,7 @@ using namespace std;  //to avoid putting std:: in front of every bloody thing ..
 
 vector<GameObject*> displayList;
 
-#ifdef _DEBUG && WIN32
+#ifdef _DEBUG&&WIN32
 const std::string ASSET_PATH = "assets";
 const std::string SHADER_PATH = "/shaders";
 const std::string TEXTURE_PATH = "/textures";

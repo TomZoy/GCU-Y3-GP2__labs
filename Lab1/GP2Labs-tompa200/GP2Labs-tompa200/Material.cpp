@@ -34,7 +34,7 @@ void Material::destroy()
 	glDeleteProgram(m_ShaderProgram);
 };
 
-bool loadShader(const string& vertexFilename, const string& fragmentFilename)
+bool Material::loadShader(const string& vertexFilename, const string& fragmentFilename)
 {
 
 	m_ShaderProgram = glCreateProgram();

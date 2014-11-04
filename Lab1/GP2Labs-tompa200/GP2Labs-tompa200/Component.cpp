@@ -42,12 +42,12 @@ Component::~Component()
 
 }
 
-GameObject *getParent()
+GameObject *Component::getParent()
 {
 	return m_Parent;
 };
 
-void setParent(GameObject *parent)
+void Component::setParent(GameObject *parent)
 {
 	m_Parent = parent;
 };

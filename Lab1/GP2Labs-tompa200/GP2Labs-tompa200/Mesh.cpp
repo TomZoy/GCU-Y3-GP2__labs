@@ -82,7 +82,7 @@ void Mesh::destroy()
 	glDeleteVertexArrays(1, &m_VAO);
 };
 
-void bind()
+void  Mesh::bind()
 {
 	glBindVertexArray(m_VAO);
 
@@ -93,7 +93,7 @@ void bind()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
 };
 
-void copyVertexData(int count, int stride, void** data)
+void  Mesh::copyVertexData(int count, int stride, void** data)
 {
 	//Make the new VBO active
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
@@ -104,7 +104,7 @@ void copyVertexData(int count, int stride, void** data)
 
 };
 
-void copyIndexData(int count, int stride, void** data)
+void  Mesh::copyIndexData(int count, int stride, void** data)
 {
 	//Make the EBO active
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
@@ -114,12 +114,12 @@ void copyIndexData(int count, int stride, void** data)
 	m_IndexCount = count;
 };
 
-GLuint getIndexCount()
+GLuint  Mesh::getIndexCount()
 {
-	return m_IndexCount;
+	return (GLuint)m_IndexCount;
 };
 
-GLuint getVertexCount()
+GLuint  Mesh::getVertexCount()
 {
-	return m_VertexCount;
+	return (GLuint)m_VertexCount;
 };

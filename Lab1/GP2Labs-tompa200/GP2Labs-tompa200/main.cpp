@@ -21,6 +21,16 @@ using glm::vec4;
 GLuint texture = 0;
 GLuint fontTexture = 0;
 
+#include "Camera.h"
+#include "Component.h"
+#include "GameObject.h"
+#include "Material.h"
+#include "Mesh.h"
+#include "Transform.h"
+
+using namespace std;  //to avoid putting std:: in front of every bloody thing ....
+
+vector<GameObject*> displayList;
 
 #ifdef _DEBUG && WIN32
 const std::string ASSET_PATH = "assets";
@@ -327,15 +337,44 @@ void InitWindow(int width, int height, bool fullscreen)
 
 }
 
+//function to initialise all components
+
+void initialise()
+{
+
+	createShader();
+	createTexture();
+
+
+	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
+	{
+		(*iter)->init();
+	}
+}
+
 //function to clean up resources after the code closes
 void CleanUp()
 {
+	/*
 	glDeleteTextures(1, &texture);
 	glDeleteTextures(1, &fontTexture);
 	glDeleteProgram(shaderProgram);
 	glDeleteBuffers(1, &triangleVBO);  // This will delete the number of buffers specified(1st parameter), with the actual buffers being passed in as the 2nd parametr
 	glDeleteBuffers(1, &triangleEBO);
 	glDeleteVertexArrays(1, &VAO);
+	*/
+
+	auto iter = displayList.begin();
+	while (iter != displayList.end())
+	{
+		(*iter)->destroy();
+		if ((*iter))
+		{
+			delete (*iter);
+			(*iter) = NULL;
+			iter = displayList.erase(iter);
+		}
+	}
 
 	SDL_GL_DeleteContext(glcontext);
 	SDL_DestroyWindow(window);
@@ -482,6 +521,8 @@ void render()
 	//clear the colour and depth-buffer	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	//code below pulled out to component level
+	/*
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 
@@ -522,6 +563,15 @@ void render()
 
 
 	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+	*/
+
+	//COMPONENT version
+	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
+	{
+		(*iter)->render();
+	}
+
+
 	SDL_GL_SwapWindow(window);
 
 }
@@ -565,9 +615,19 @@ void MoveTriangle() //the "animation"
 //function to update game state
 void update()
 {
+	//code below pulled out to component level
+	/*
 	projMatrix 	=	glm::perspective(45.0f,	(float)WINDOW_WIDTH	/(float)WINDOW_HEIGHT,0.1f,	100.0f);
 	viewMatrix	=	glm::lookAt(vec3(0.0f,	0.0f,	10.0f), vec3(0.0f,	0.0f,	0.0f),	vec3(0.0f,	1.0f,	0.0f));
 	worldMatrix =   glm::translate(mat4(1.0f),vec3(0.0f, 0.0f, 0.0f));
+	*/
+
+	//COMPONENT version
+	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
+	{
+		(*iter)->update();
+	}
+
 }
 
 void initGeometry()
@@ -702,12 +762,10 @@ int main(int argc, char * arg[]){
 	SDL_Event event;
 
 
-	double tFall = 0.0; //timer for the game loop for falling
-	double tRotate = 0.0; //timer for the game loop for rotation
 
 
-	createShader();
-	createTexture();
+
+
 
 
 	// --- GAME LOOP START --- //

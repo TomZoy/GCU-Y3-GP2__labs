@@ -253,6 +253,10 @@ int main(int argc, char * arg[]){
 	double tFall = 0.0; //timer for the game loop for falling
 	double tRotate = 0.0; //timer for the game loop for rotation
 
+	int SDL_SetRelativeMouseMode(SDL_bool enabled);
+
+	float sensibility = 0.01;
+	bool infocus = false;
 
 
 	// --- GAME LOOP START --- //
@@ -267,39 +271,89 @@ int main(int argc, char * arg[]){
 				running = false;
 			}
 
-			/*EXPERIMENTAL BEGGINS*/
+
+			if (SDL_WINDOWEVENT_FOCUS_GAINED)
+			{
+				infocus = true;
+			}
+			else
+			{
+				infocus = false;
+			}
+
+			/*TAKE KEYBOARD INPUT*/
+			// task: move the object in 2D usign the mouse position, and the WASD to move
+
+			//https://wiki.libsdl.org/SDL_KeyboardEvent
 
 			switch (event.type){
 				/* Look for a keypress */
 			case SDL_KEYDOWN:
 				/* Check the SDLKey values and move change the coords */
 				switch (event.key.keysym.sym){
-				case SDLK_LEFT:
+				case SDLK_a:
 					TR2[0][3] -= 0.1f;
 					TR2[1][3] -= 0.1f;
 					TR2[2][3] -= 0.1f;
 					break;
-				case SDLK_RIGHT:
+				case SDLK_d:
 					TR2[0][3] += 0.1f;
 					TR2[1][3] += 0.1f;
 					TR2[2][3] += 0.1f;
 					break;
-				case SDLK_UP:
+				case SDLK_w:
 					TR2[1][4] += 0.1f;
 					break;
-				case SDLK_DOWN:
+				case SDLK_s:
 					TR2[1][4] -= 0.1f;
+					break;
+
+				case SDLK_l:
+					std::cout << "L pressed"; //DEBUG INFO
 					break;
 
 				default:
 					break;
 				}
-			}
 
 
-			/*EXPERIMENTAL ENDS*/
 
-		} //event checking ends here
+				/* mouse code starts here*/
+				// https://wiki.libsdl.org/SDL_MouseMotionEvent
+
+			case SDL_MOUSEMOTION:
+
+			
+				//move on X direction (left)
+				if ((event.motion.xrel < 0) && (infocus))
+				{
+					std::cout << "moue moved"; //DEBUG INFO
+					std::cout << "motion.xrel: " << event.motion.xrel << " \n \r"; //DEBUG INFO
+
+					TR1[0][3] += event.motion.xrel*sensibility;
+					TR1[1][3] += event.motion.xrel*sensibility;
+					TR1[2][3] += event.motion.xrel*sensibility;
+					break;
+				}
+				
+				//move on X direction (left)
+				else if ((event.motion.xrel > 0) && (infocus))
+				{
+					std::cout << "moue moved"; //DEBUG INFO
+					std::cout << "motion.xrel: " << event.motion.xrel << " \n \r"; //DEBUG INFO
+
+					TR1[0][3] += event.motion.xrel*sensibility;
+					TR1[1][3] += event.motion.xrel*sensibility;
+					TR1[2][3] += event.motion.xrel*sensibility;
+					break;
+				}
+
+
+			} //event checking ends here
+
+
+
+		}
 
 
 		if (tFall > fallSpeed)
